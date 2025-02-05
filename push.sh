@@ -6,6 +6,5 @@ tar -cf - conversations prompts | openssl enc -aes-256-cbc -pbkdf2 -e -out archi
 cd ~/dotfiles       
 git add .         
 git commit -m "My dotfiles synced from remote machines"
-git branch -M main 
-git push
+git push origin main
 echo "✅ Complete!"
