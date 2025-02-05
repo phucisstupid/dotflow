@@ -1,8 +1,5 @@
 
-# install Repository
-
-Welcome to the install repository! This project provides advanced scripts to manage and synchronize your dotfiles efficiently. It’s designed to work seamlessly with the [dotfiles repository](https://github.com/phucleeuwu/dotfiles), offering a next-level management experience. 🚀
-
+# Dotfiles manager
 ## 📦 install Repository
 
 This repository contains scripts to facilitate the installation and management of dotfiles from the [dotfiles repository](https://github.com/phucleeuwu/dotfiles).
@@ -43,7 +40,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dot.manager/main/
 * Creates a new `.config` directory.
 * Uses `stow` to create symbolic links for the configurations.
 
-### 3. Private Script
+### 3. 🔒Private Script
 
 **Purpose:** Clones the dotfiles repository, decrypts private configurations, and sets up symbolic links.
 
