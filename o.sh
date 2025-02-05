@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Check if an argument is provided
-if [[ "$1" == "-1" ]]; then
+if [[ "$1" == "-i" ]]; then
     script_name="private.sh"
-elif [[ "$1" == "-2" ]]; then
+elif [[ "$1" == "-p" ]]; then
     script_name="push.sh"
 else
     echo "Invalid option."
