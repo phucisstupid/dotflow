@@ -10,6 +10,6 @@ git init
 git add .         
 git commit -m "My dotfiles synced from remote machines"
 git branch -M main 
-git remote add origin https://github.com/omerxx/dotfiles
+git remote add origin https://github.com/phucleeuwu/dotfiles
 git push --force origin main
 echo "✅ Complete!"
