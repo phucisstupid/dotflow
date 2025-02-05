@@ -1,6 +1,8 @@
 #!/bin/bash
 cd ~
+git lfs install
 git clone --depth 1 https://github.com/phucleeuwu/dotfiles
+git lfs pull
 rm -f ~/.zshrc
 rm -rf ~/.config
 mkdir -p ~/.config
