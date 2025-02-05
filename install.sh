@@ -2,7 +2,7 @@
 
 # Go to home directory
 cd ~
-GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/phucleeuwu/dotfiles
+GIT_LFS_SKIP_SMUDGE=1 git clone --depth 1 https://github.com/phucleeuwu/dotfiles.git
 # Remove existing ~/.config and recreate it
 rm -f ~/.zshrc
 rm -rf ~/.config
