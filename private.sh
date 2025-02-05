@@ -1,6 +1,6 @@
 #!/bin/bash
 cd ~
-git clone --depth 1 https://github.com/username/repo.git
+git clone --depth 1 https://github.com/phucleeuwu/dotfiles
 rm -f ~/.zshrc
 rm -rf ~/.config
 mkdir -p ~/.config
