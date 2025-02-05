@@ -5,10 +5,8 @@ if [[ "$1" == "-1" ]]; then
     script_name="private.sh"
 elif [[ "$1" == "-2" ]]; then
     script_name="push.sh"
-elif [[ "$1" == "-3" ]]; then
-    script_name="install.sh"
 else
-    echo "Invalid option. Please use -1 for private.sh, -2 for push.sh, or -3 for install.sh."
+    echo "Invalid option."
     exit 1
 fi
 
