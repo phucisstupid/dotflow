@@ -1,0 +1,70 @@
+
+# install Repository
+
+Welcome to the install repository! This project provides advanced scripts to manage and synchronize your dotfiles efficiently. It’s designed to work seamlessly with the [dotfiles repository](https://github.com/phucleeuwu/dotfiles), offering a next-level management experience. 🚀
+
+## 📦 install Repository
+
+This repository contains scripts to facilitate the installation and management of dotfiles from the [dotfiles repository](https://github.com/phucleeuwu/dotfiles).
+
+## 📜 Available Scripts
+
+### 1. Push Script
+
+**Purpose:** Backs up your current dotfiles, including specific configurations like GitHub Copilot and Raycast, and pushes them to the remote dotfiles repository.
+
+**Usage:**
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dot.manager/main/push.sh)
+```
+
+**What It Does:**
+
+* Dumps Homebrew packages into a Brewfile.
+* Encrypts and archives specific configurations.
+* Initializes a new Git repository for your dotfiles.
+* Commits and force-pushes the changes to the remote repository.
+
+### 2. Install Script
+
+**Purpose:** Clones the dotfiles repository and sets up symbolic links to integrate the configurations into your system.
+
+**Usage:**
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dot.manager/main/install.sh)
+```
+
+**What It Does:**
+
+* Clones the dotfiles repository to your home directory.
+* Removes existing `.zshrc` and `.config` to prevent conflicts.
+* Creates a new `.config` directory.
+* Uses `stow` to create symbolic links for the configurations.
+
+### 3. Private Script
+
+**Purpose:** Clones the dotfiles repository, decrypts private configurations, and sets up symbolic links.
+
+**Usage:**
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dot.manager/main/private.sh)
+```
+
+**What It Does:**
+
+* Clones the dotfiles repository to your home directory.
+* Removes existing `.zshrc` and `.config` to prevent conflicts.
+* Creates a new `.config` directory.
+* Decrypts and extracts private configurations.
+* Uses `stow` to create symbolic links for the configurations.
+
+## ⚠️ Important Notes
+
+* **Backup:** Ensure you have backups of your current configurations before running these scripts.
+* **Dependencies:** These scripts rely on tools like `git`, `stow`, `openssl`, and `brew`. Make sure they are installed on your system.
+* **Security:** The `private.sh` script handles encrypted data. Ensure your environment is secure and you trust the source of these scripts.
+
+For more information on managing dotfiles, you can refer to resources like [dotfiles.github.io](http://dotfiles.github.io) and [awesome-dotfiles](https://github.com/webpro/awesome-dotfiles).
