@@ -6,7 +6,5 @@ tar -cf - github-copilot raycast | openssl enc -aes-256-cbc -pbkdf2 -e -out arch
 cd zed
 tar -cf - conversations prompts | openssl enc -aes-256-cbc -pbkdf2 -e -out archive.tar.gz
 cd ~/dotfiles              
-git add .         
-git commit -m "My dotfiles synced from remote machines"
-git push origin main
+lazygit
 echo "✅ Complete!"
