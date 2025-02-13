@@ -6,9 +6,18 @@ if [[ "$1" == "-i" ]]; then
 elif [[ "$1" == "-p" ]]; then
     script_name="push.sh"
 else
-    echo "Invalid option."
+    script_name="install.sh"
+fi
+
+# Fetch the script safely
+url="https://raw.githubusercontent.com/phucleeuwu/dot.manager/main/$script_name"
+script_content=$(curl -fsSL "$url")
+
+# Check if curl succeeded
+if [[ -z "$script_content" ]]; then
+    echo "Error: Failed to download $script_name"
     exit 1
 fi
 
-# Run the selected script
-bash <(curl -fsSL "https://raw.githubusercontent.com/phucleeuwu/dot.manager/main/$script_name")
+# Execute the script
+bash -c "$script_content"
