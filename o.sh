@@ -10,4 +10,4 @@ else
 fi
 
 # Run the selected script
-bash <(curl -fsSL "https://raw.githubusercontent.com/phucleeuwu/dmger/main/$script_name")
+bash <(curl -fsSL "https://raw.githubusercontent.com/phucleeuwu/Dotflow/main/$script_name")
