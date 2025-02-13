@@ -13,7 +13,7 @@ This repository contains scripts to facilitate the installation and management o
 **Usage:**
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dot.manager/main/push.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dmger/main/push.sh)
 ```
 
 **What It Does:**
@@ -30,7 +30,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dot.manager/main/
 **Usage:**
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dot.manager/main/install.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dmger/main/install.sh)
 ```
 
 **What It Does:**
@@ -47,7 +47,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dot.manager/main/
 **Usage:**
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dot.manager/main/private.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dmger/main/private.sh)
 ```
 
 **What It Does:**
