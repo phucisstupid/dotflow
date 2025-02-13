@@ -18,18 +18,21 @@ cd dotfiles
 stow -v .
 stow -v zshrc -t ~
 
-# Clean up unwanted files
-rm -rf .gitignore .stow-local-ignore .stowrc README.md archive.tar.gz .git .gitattributes
-
-# Go into zed folder and remove archive
-cd zed
-rm -rf archive.tar.gz
+# Ask if user wants to remove unwanted files (excluding zed folder but removing its archive.tar.gz)
+read -p "Do you want to remove unwanted files (e.g., .gitignore, .stowrc, and zed/archive.tar.gz)? (y/n) " rm_unwanted
+if [[ "$rm_unwanted" =~ ^[Yy]$ ]]; then
+    rm -rf .gitignore .stow-local-ignore .stowrc README.md archive.tar.gz .git .gitattributes
+    if [[ -f "zed/archive.tar.gz" ]]; then
+        rm -rf zed/archive.tar.gz
+    fi
+    echo "✅ Unwanted files removed."
+fi
 
 # Apply the new zshrc
 source ~/.zshrc
 
-# Script finished, exit terminal
-exit
-
-# If you reach here, it means no errors occurred
+# Installation complete message
 echo "✅ Installation complete! All files from ~/dotfiles are now symlinked to ~/.config/"
+
+# Exit terminal
+exit
