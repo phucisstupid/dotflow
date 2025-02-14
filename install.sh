@@ -68,10 +68,9 @@ fi
 # Ask if user wants to install Brew packages
 BREWFILE="$DOTFILES_DIR/Brewfile"
 if [[ -f "$BREWFILE" ]]; then
-    read -p "🍺 Do you want to install my Homebrew packages (Optional)? (y/n) " install_brewfile
+    read -p "🍺 Do you want to install my Homebrew packages (Recommended)? (y/n) " install_brewfile
     if [[ "$install_brewfile" =~ ^[Yy]$ ]]; then
         brew bundle --file="$BREWFILE"
-        echo "✅ Homebrew packages installed."
     else
         echo "⏭ Skipping Homebrew package installation."
     fi
