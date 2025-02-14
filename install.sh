@@ -3,6 +3,15 @@
 # Exit immediately if any command fails
 set -e
 
+if [[ -d "$CONFIG_DIR" ]]; then
+    echo "⚠ Your ~/.config directory will be removed and replaced."
+    if get_yes_no "📂 Do you want to create a backup before continuing?"; then
+        BACKUP_DIR="$HOME/.config_backup_$(date +%Y%m%d%H%M%S)"
+        mv "$CONFIG_DIR" "$BACKUP_DIR"
+        echo "✅ Backup created at $BACKUP_DIR"
+    fi
+fi
+
 # Function to install Homebrew
 install_homebrew() {
     echo "🔍 Homebrew not found. Installing now..."
@@ -92,4 +101,4 @@ fi
 # Final notice
 echo "🎉 Setup complete! All dotfiles have been symlinked and configured."
 echo "🛠 If you make any changes to your dotfiles, remember to apply them using: "
-echo "   cd ~/dotfiles && stow ."
+echo "   $ cd ~/dotfiles && stow ."
