@@ -18,10 +18,23 @@ install_homebrew() {
     echo "✅ Homebrew installed successfully!"
 }
 
+# Function to get a valid yes/no input
+get_yes_no() {
+    local prompt="$1"
+    local response
+    while true; do
+        read -p "$prompt (y/n) " response
+        case "$response" in
+            [Yy]) return 0 ;;  # Yes
+            [Nn]) return 1 ;;  # No
+            *) echo "❌ Invalid choice. Please enter 'y' for Yes or 'n' for No." ;;
+        esac
+    done
+}
+
 # Check if Homebrew is installed, prompt user to install if missing
 if ! command -v brew &> /dev/null; then
-    read -p "🍺 Homebrew is not installed. Do you want to install it now? (y/n) " install_brew
-    if [[ "$install_brew" =~ ^[Yy]$ ]]; then
+    if get_yes_no "🍺 Homebrew is not installed. Do you want to install it now?"; then
         install_homebrew
     else
         echo "❌ Homebrew is required for this script. Exiting."
@@ -56,8 +69,7 @@ stow -v .
 stow -v zshrc -t ~
 
 # Ask if user wants to remove unwanted files
-read -p "🗑 Do you want to remove unwanted files (e.g., .gitignore, .stowrc, raycastconf)? (y/n) " rm_unwanted
-if [[ "$rm_unwanted" =~ ^[Yy]$ ]]; then
+if get_yes_no "🗑 Do you want to remove unwanted files (e.g., .gitignore, .stowrc, raycastconf)?"; then
     rm -rf .git .gitignore README.md raycastconf
     echo "✅ Unwanted files removed."
 else
@@ -68,8 +80,7 @@ fi
 # Ask if user wants to install Brew packages
 BREWFILE="$DOTFILES_DIR/Brewfile"
 if [[ -f "$BREWFILE" ]]; then
-    read -p "🍺 Do you want to install my Homebrew packages (Recommended)? (y/n) " install_brewfile
-    if [[ "$install_brewfile" =~ ^[Yy]$ ]]; then
+    if get_yes_no "🍺 Do you want to install my Homebrew packages (Recommended)?"; then
         brew bundle --file="$BREWFILE"
     else
         echo "⏭ Skipping Homebrew package installation."
@@ -81,4 +92,4 @@ fi
 # Final notice
 echo "🎉 Setup complete! All dotfiles have been symlinked and configured."
 echo "🛠 If you make any changes to your dotfiles, remember to apply them using: "
-echo "   $ cd ~/dotfiles && stow ."
+echo "   cd ~/dotfiles && stow ."
