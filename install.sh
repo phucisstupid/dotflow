@@ -61,11 +61,10 @@ fi
 # Ask if user wants to install Brew packages
 BREWFILE="$DOTFILES_DIR/Brewfile"
 if [[ -f "$BREWFILE" ]]; then
-    read -p "🍺 Do you want to install Homebrew packages from your Brewfile? (y/n) " install_brew
+    read -p "🍺 Do you want to install recommend Homebrew packages (Optional)? (y/n) " install_brew
     if [[ "$install_brew" =~ ^[Yy]$ ]]; then
         brew bundle --file="$BREWFILE"
-        echo "✅ Homebrew packages installed."
-    else
+    else    
         echo "⏭ Skipping Homebrew package installation."
     fi
 else
@@ -75,5 +74,4 @@ fi
 # Final notice
 echo "🎉 Setup complete! All dotfiles have been symlinked and configured."
 echo "🛠 If you make any changes to your dotfiles, remember to apply them using: "
-echo "   cd ~/dotfiles && stow ."
-echo "🚀 Enjoy your new setup!"
+echo "   $ cd ~/dotfiles && stow ."
