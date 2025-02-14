@@ -3,17 +3,6 @@
 # Exit immediately if any command fails
 set -e
 
-cd ~
-
-if [[ -d "$CONFIG_DIR" ]]; then
-    echo "⚠ Your ~/.config directory will be removed and replaced."
-    if get_yes_no "📂 Do you want to create a backup before continuing?"; then
-        BACKUP_DIR="$HOME/.config_backup_$(date +%Y%m%d%H%M%S)"
-        mv "$CONFIG_DIR" "$BACKUP_DIR"
-        echo "✅ Backup created at $BACKUP_DIR"
-    fi
-fi
-
 # Function to install Homebrew
 install_homebrew() {
     echo "🔍 Homebrew not found. Installing now..."
