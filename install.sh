@@ -8,7 +8,7 @@ install_homebrew() {
     echo "🔍 Homebrew not found. Installing now..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-    # Ensure Homebrew is in the PATH (especially for Apple Silicon Macs)
+    # Ensure Homebrew is in the PATH (handles both Apple Silicon & Intel)
     eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null || /usr/local/bin/brew shellenv)"
     
     if ! command -v brew &> /dev/null; then
@@ -27,6 +27,13 @@ if ! command -v brew &> /dev/null; then
         echo "❌ Homebrew is required for this script. Exiting."
         exit 1
     fi
+fi
+
+# Check if Stow is installed, install it via Homebrew if missing
+if ! command -v stow &> /dev/null; then
+    echo "🛠 Stow is not installed. Installing it via Homebrew..."
+    brew install stow
+    echo "✅ Stow installed successfully!"
 fi
 
 # Clone dotfiles repository
@@ -61,10 +68,11 @@ fi
 # Ask if user wants to install Brew packages
 BREWFILE="$DOTFILES_DIR/Brewfile"
 if [[ -f "$BREWFILE" ]]; then
-    read -p "🍺 Do you want to install recommend Homebrew packages (Optional)? (y/n) " install_brew
-    if [[ "$install_brew" =~ ^[Yy]$ ]]; then
+    read -p "🍺 Do you want to install my Homebrew packages (Optional)? (y/n) " install_brewfile
+    if [[ "$install_brewfile" =~ ^[Yy]$ ]]; then
         brew bundle --file="$BREWFILE"
-    else    
+        echo "✅ Homebrew packages installed."
+    else
         echo "⏭ Skipping Homebrew package installation."
     fi
 else
