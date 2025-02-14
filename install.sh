@@ -3,6 +3,8 @@
 # Exit immediately if any command fails
 set -e
 
+cd ~
+
 if [[ -d "$CONFIG_DIR" ]]; then
     echo "⚠ Your ~/.config directory will be removed and replaced."
     if get_yes_no "📂 Do you want to create a backup before continuing?"; then
