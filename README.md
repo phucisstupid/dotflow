@@ -19,9 +19,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/Dotflow/main/push
 **What It Does:**
 
 * Dumps Homebrew packages into a Brewfile.
-* Encrypts and archives specific configurations.
-* Initializes a new Git repository for your dotfiles.
-* Commits and force-pushes the changes to the remote repository.
+* Commits and pushes by `lazygit`.
 
 ### 2. Install Script
 
@@ -38,24 +36,6 @@ bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/Dotflow/main/inst
 * Clones the dotfiles repository to your home directory.
 * Removes existing `.zshrc` and `.config` to prevent conflicts.
 * Creates a new `.config` directory.
-* Uses `stow` to create symbolic links for the configurations.
-
-### 3. 🔒Private Script
-
-**Purpose:** Clones the dotfiles repository, decrypts private configurations, and sets up symbolic links.
-
-**Usage:**
-
-```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/Dotflow/main/private.sh)
-```
-
-**What It Does:**
-
-* Clones the dotfiles repository to your home directory.
-* Removes existing `.zshrc` and `.config` to prevent conflicts.
-* Creates a new `.config` directory.
-* Decrypts and extracts private configurations.
 * Uses `stow` to create symbolic links for the configurations.
 
 ## ⚠️ Important Notes
