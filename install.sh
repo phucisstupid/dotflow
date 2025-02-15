@@ -74,7 +74,8 @@ if get_yes_no "🗑 Do you want to remove unwanted files (e.g., .gitignore, .sto
     echo "✅ Unwanted files removed."
 else
     ln -s ~/Documents/Dev/github-copilot "$CONFIG_DIR/github-copilot"
-    echo "✅ Symlink created for GitHub Copilot."
+    ln -s '/Users/phc/Library/Mobile Documents/com~apple~CloudDocs/raycast' "$CONFIG_DIR/raycast"
+    echo "✅ Symlink created for GitHub Copilot and Raycast."
 fi
 
 # Ask if user wants to install Brew packages
