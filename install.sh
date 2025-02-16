@@ -72,7 +72,7 @@ bat cache --build
 
 # Ask if user wants to remove unwanted files
 if get_yes_no "🗑 Do you want to remove unwanted files (e.g., .gitignore, .stowrc, raycastconf)?"; then
-    rm -rf .git .gitignore README.md raycastconf🔍
+    rm -rf .git .gitignore README.md raycast🔍
     echo "✅ Unwanted files removed."
 else
     ln -sf "$HOME/Documents/Personal/github-copilot" "$CONFIG_DIR"
