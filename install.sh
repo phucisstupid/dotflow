@@ -75,8 +75,8 @@ if get_yes_no "🗑 Do you want to remove unwanted files (e.g., .gitignore, .sto
     rm -rf .git .gitignore README.md raycastconf
     echo "✅ Unwanted files removed."
 else
-    ln -s "$HOME/Documents/Personal/github-copilot" "$CONFIG_DIR"
-    ln -s "$HOME/Documents/Personal/raycast" "$CONFIG_DIR"
+    ln -sf "$HOME/Documents/Personal/github-copilot" "$CONFIG_DIR"
+    ln -sf "$HOME/Documents/Personal/raycast" "$CONFIG_DIR"
     echo "✅ Symlink created for GitHub Copilot and Raycast."
 fi
 
