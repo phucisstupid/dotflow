@@ -65,9 +65,9 @@ mkdir -p "$CONFIG_DIR"
 
 # Use GNU Stow to manage dotfiles
 cd "$DOTFILES_DIR"
-stow -v .
-stow -v zsh -t ~
-stow -v git -t ~
+stow .
+stow zsh -t ~
+stow git -t ~
 # Ask if user wants to remove unwanted files
 if get_yes_no "🗑 Do you want to remove unwanted files (e.g., .gitignore, .stowrc, raycast🔍)?"; then
     rm -rf .git .gitignore README.md raycast🔍
