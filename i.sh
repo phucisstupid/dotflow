@@ -66,7 +66,7 @@ mkdir -p "$CONFIG_DIR"
 # Use GNU Stow to manage dotfiles
 cd "$DOTFILES_DIR"
 stow -v .
-stow -v zshrc -t ~
+stow -v zsh -t ~
 ln -sf ~/dotfiles/git/.gitconfig ~/.gitconfig
 
 # Ask if user wants to remove unwanted files
