@@ -67,8 +67,7 @@ mkdir -p "$CONFIG_DIR"
 cd "$DOTFILES_DIR"
 stow -v .
 stow -v zsh -t ~
-ln -sf ~/dotfiles/git/.gitconfig ~/.gitconfig
-
+stow -v git -t ~
 # Ask if user wants to remove unwanted files
 if get_yes_no "🗑 Do you want to remove unwanted files (e.g., .gitignore, .stowrc, raycast🔍)?"; then
     rm -rf .git .gitignore README.md raycast🔍
