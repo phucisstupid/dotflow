@@ -28,7 +28,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/Dotflow/main/push
 **Usage:**
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/Dotflow/main/install.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/Dotflow/main/i.sh)
 ```
 
 **What It Does:**
