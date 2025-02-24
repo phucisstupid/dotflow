@@ -69,8 +69,8 @@ stow .
 stow zsh git -t ~
 
 # Ask if user wants to remove unwanted files
-if get_yes_no "🗑 Do you want to remove unwanted files (e.g., .gitignore, .stowrc, raycast🔍)?"; then
-    rm -rf .git .gitignore README.md raycast🔍
+if get_yes_no "🗑 Do you want to remove unwanted files (e.g., .git, .gitignore, README.md )?"; then
+    rm -rf .git .gitignore README.md
     echo "✅ Unwanted files removed."
 else
     ln -sf "$HOME/Documents/Personal/github-copilot" "$CONFIG_DIR"
