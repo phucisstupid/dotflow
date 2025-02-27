@@ -79,7 +79,7 @@ else
 fi
 
 # Ask if user wants to install Brew packages
-BREWFILE="$DOTFILES_DIR/Brewfile"
+BREWFILE="$DOTFILES_DIR/brew/Brewfile"
 if [[ -f "$BREWFILE" ]]; then
     if get_yes_no "🍺 Do you want to install my Homebrew packages (Recommended)?"; then
         brew bundle --file="$BREWFILE"
