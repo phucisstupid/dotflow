@@ -69,8 +69,8 @@ stow .
 stow zsh git -t ~
 
 # Ask if user wants to remove unwanted files
-if get_yes_no "🗑 Do you want to remove unwanted files (e.g., .git, .gitignore, README.md )?"; then
-    rm -rf .git .gitignore README.md
+if get_yes_no "🗑 Do you want to remove unwanted files (e.g., .git, .gitignore, README.md, nix )?"; then
+    rm -rf .git .gitignore README.md nix
     echo "✅ Unwanted files removed."
 else
     ln -sf "$HOME/Documents/Personal/github-copilot" "$CONFIG_DIR"
@@ -81,7 +81,7 @@ fi
 # Ask if user wants to install Brew packages
 BREWFILE="$DOTFILES_DIR/brew/Brewfile"
 if [[ -f "$BREWFILE" ]]; then
-    if get_yes_no "🍺 Do you want to install my Homebrew packages (Recommended)?"; then
+    if get_yes_no "🍺 Do you want to install my Homebrew packages (Optional)?"; then
         brew bundle --file="$BREWFILE"
     else
         echo "⏭ Skipping Homebrew package installation."
