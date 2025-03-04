@@ -23,6 +23,8 @@ bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/Dotflow/main/push
 
 ### 2. Install Script
 
+> This script will link `raycast` and `github-copilot` from `~/Documents/Personal/*` unless you choose to delete unnecessary files. These folders are stored there for convenience as Finder backs them up to iCloud.
+
 **Purpose:** Clones the dotfiles repository and sets up symbolic links to integrate the configurations into your system.
 
 **Usage:**
