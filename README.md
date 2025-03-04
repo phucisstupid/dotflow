@@ -6,22 +6,7 @@ This repository contains scripts to facilitate the installation and management o
 
 ## 📜 Available Scripts
 
-### 1. Push Script
-
-**Purpose:** Backs up your current dotfiles, including specific configurations like GitHub Copilot and Raycast, and pushes them to the remote dotfiles repository.
-
-**Usage:**
-
-```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/Dotflow/main/push.sh)
-```
-
-**What It Does:**
-
-* Dumps Homebrew packages into a Brewfile.
-* Commits and pushes by `lazygit`.
-
-### 2. Install Script
+### 1. Install Script
 
 > This script will link `raycast` and `github-copilot` from `~/Documents/Personal/*` unless you choose to delete unnecessary files. These folders are stored there for convenience as Finder backs them up to iCloud.
 
@@ -39,6 +24,21 @@ bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/Dotflow/main/i.sh
 * Removes existing `.zshrc` and `.config` to prevent conflicts.
 * Creates a new `.config` directory.
 * Uses `stow` to create symbolic links for the configurations.
+
+### 2. Push Script
+
+**Purpose:** Backs up your current dotfiles, including specific configurations like GitHub Copilot and Raycast, and pushes them to the remote dotfiles repository.
+
+**Usage:**
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/Dotflow/main/push.sh)
+```
+
+**What It Does:**
+
+* Dumps Homebrew packages into a Brewfile.
+* Commits and pushes by `lazygit`.
 
 ## ⚠️ Important Notes
 
