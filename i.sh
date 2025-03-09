@@ -65,8 +65,10 @@ mkdir -p "$CONFIG_DIR"
 
 # Use GNU Stow to manage dotfiles
 cd "$DOTFILES_DIR"
+mv .stow-local-ignore-nonix .stow-local-ignore
 stow .
 stow zsh git -t ~
+mv .stow-local-ignore. stow-local-ignore-nonix
 
 # Ask if user wants to remove unwanted files
 if get_yes_no "🗑 Do you want to remove unwanted files (e.g., .git, .gitignore, README.md, nix )?"; then
