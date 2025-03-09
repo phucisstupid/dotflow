@@ -68,12 +68,12 @@ cd "$DOTFILES_DIR"
 if get_yes_no "Do you use nix ('y' to use nix and 'n' for stow)"; then  #use nix or not
     mv .stow-local-ignore-nix .stow-local-ignore
     stow .
-    mv .stow-local-ignore. stow-local-ignore-nix    
+    mv .stow-local-ignore .stow-local-ignore-nix    
 else
     mv .stow-local-ignore-nonix .stow-local-ignore
     stow .
     stow zsh git -t ~
-    mv .stow-local-ignore. stow-local-ignore-nonix
+    mv .stow-local-ignore. .stow-local-ignore-nonix
 fi
 
 # Ask if user wants to remove unwanted files
