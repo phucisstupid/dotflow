@@ -1,6 +1,6 @@
 
 # Dotfiles manager
-This repository contains scripts to facilitate the installation and management of dotfiles from the [dotfiles repository](https://github.com/phucleeuwu/dotfiles).
+This repository contains scripts to facilitate the installation and management of [dotfiles repository](https://github.com/phucleeuwu/dotfiles).
 
 ## 1. Install Script
 
@@ -16,6 +16,8 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dotflow/main/
 * Removes existing `.zshrc` and `.config` to prevent conflicts.
 * Uses `stow` to create symbolic links for the configurations.
 * Ask to install my `Homebrew` packages
+
+---
 
 ## 2. Push Script
 
