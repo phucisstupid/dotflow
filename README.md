@@ -7,7 +7,7 @@ This repository contains scripts to facilitate the installation and management o
 > This script will link `raycast` and `github-copilot` from `~/Documents/Personal/*` unless you choose to delete unnecessary files. These folders are stored there for convenience as Finder backs them up to iCloud.
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/Dotflow/main/i.sh)
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/Dotflow/main/i.sh)"
 ```
 
 **What It Does:**
@@ -20,7 +20,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/Dotflow/main/i.sh
 ## 2. Push Script
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/Dotflow/main/push.sh)
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/Dotflow/main/push.sh)"
 ```
 
 **What It Does:**
