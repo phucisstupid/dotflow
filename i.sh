@@ -53,7 +53,7 @@ mkdir -p "$CONFIG_DIR"
 # Use GNU Stow to manage dotfiles
 cd "$DOTFILES_DIR" || exit 1  # Ensure cd succeeds
 
-if get_yes_no "❄️ 'y' to use Nix 'n' for Stow"; then
+if get_yes_no "❄️ Do you use Nix"; then
     mv .stow-local-ignore .stow-local-ignore1
     mv .stow-local-ignore-for-nix .stow-local-ignore
     stow .
