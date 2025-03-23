@@ -4,10 +4,14 @@ Minimal scripts to install and manage my [dotfiles](https://github.com/phucleeuw
 
 ## 🔹 Install Options:
 
+---
+
 ### **Nix ❄️**
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dotflow/main/nix.sh)"
 ```
+
+---
 
 ### **Stow 🏠**
 ```bash
