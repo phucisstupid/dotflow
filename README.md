@@ -2,8 +2,6 @@
 
 Minimal scripts to install and manage my [dotfiles](https://github.com/phucleeuwu/dotfiles) effortlessly.
 
----
-
 ## **Note:** This script links `raycast` and `github-copilot` from `~/Documents/Personal/`, which are automatically backed up to iCloud ☁️ by Finder.
 
 ## 🔹 Install Options:
