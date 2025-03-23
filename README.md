@@ -1,34 +1,38 @@
+# 🚀 Dotfiles Setup
 
-# Dotfiles manager
-This repository contains scripts to facilitate the installation and management of [dotfiles repository](https://github.com/phucleeuwu/dotfiles).
-
-## 1. Install Script
-
-> This script will link `raycast` and `github-copilot` from `~/Documents/Personal/*` unless you choose to delete unnecessary files. These folders are stored there for convenience as Finder backs them up to iCloud.
-
-```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dotflow/main/i.sh)"
-```
-
-**What It Does:**
-
-* Clones the dotfiles repository to your home directory.
-* Removes existing `.zshrc` and `.config` to prevent conflicts.
-* Uses `stow` to create symbolic links for the configurations.
-* Ask to install my `Homebrew` packages
+Minimal scripts to install and manage my [dotfiles](https://github.com/phucleeuwu/dotfiles) effortlessly.
 
 ---
 
-## 2. Push Script
+## **Note:** This script links `raycast` and `github-copilot` from `~/Documents/Personal/`, which are automatically backed up to iCloud by Finder.
 
+## 🔹 Install Options:
+
+### **Nix Installation ❄️**
+For **Nix** users, directly link essential configs:
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dotflow/main/push.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dotflow/main/nix.sh)"
 ```
+🛠 **Links created:**
+- `~/.config/aerospace` → `~/dotfiles/aerospace`
+- `~/.config/ghostty` → `~/dotfiles/ghostty`
+- `~/.config/karabiner` → `~/dotfiles/karabiner`
+- ☁️ iCloud-synced folders (`github-copilot`, `raycast`)
 
-**What It Does:**
+---
 
-* Dumps Homebrew packages into a Brewfile.
-* Commits and pushes by `lazygit`.
+### **Stow Installation 🏠**
+For **Stow** users, auto-manage dotfiles:
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dotflow/main/stow.sh)"
+```
+🛠 **What it does:**
+- Clones dotfiles to `~/dotfiles`
+- Ensures **Homebrew**, **Stow**, and **Zinit** are installed
+- Uses **Stow** to symlink dotfiles:
+- ☁️ iCloud-synced folders (`github-copilot`, `raycast`)
+
+---
 
 ## ⚠️ Important Notes
 
@@ -36,3 +40,4 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dotflow/main/
 * **Dependencies:** These scripts rely on tools like `git`, `stow` and `brew`. My script will install it for you.
 
 For more information on managing dotfiles, you can refer to resources like [dotfiles.github.io](http://dotfiles.github.io) and [awesome-dotfiles](https://github.com/webpro/awesome-dotfiles).
+😻 **Enjoy your clean and minimal setup!**

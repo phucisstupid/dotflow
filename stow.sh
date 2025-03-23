@@ -39,7 +39,7 @@ DOTFILES_DIR="$HOME/dotfiles"
 CONFIG_DIR="$HOME/.config"
 
 # Clone dotfiles repository
-echo "🚀 Setting up dotfiles..."
+echo "🚀 Setting up dotfiles with Stow..."
 cd ~
 rm -rf "$DOTFILES_DIR"
 git clone --depth 1 https://github.com/phucleeuwu/dotfiles.git "$DOTFILES_DIR"
@@ -49,51 +49,40 @@ rm -f ~/.zshrc
 rm -rf "$CONFIG_DIR"
 mkdir -p "$CONFIG_DIR"
 
-
-# Use GNU Stow to manage dotfiles
-cd "$DOTFILES_DIR" || exit 1  # Ensure cd succeeds
-
-if get_yes_no "❄️ Do you use Nix?, 'n' for Stow"; then
-    mv .stow-local-ignore .stow-local-ignore1
-    mv .stow-local-ignore-for-nix .stow-local-ignore
-    stow .
-    mv .stow-local-ignore .stow-local-ignore-for-nix
-    mv .stow-local-ignore1 .stow-local-ignore
-else
-    # Check if Homebrew is installed *only if using Stow*
-    if ! command -v brew &>/dev/null; then
-        if get_yes_no "🍺 Homebrew is not installed. Do you want to install it now?"; then
-            install_homebrew
-        else
-            echo "❌ Homebrew is required for this script. Exiting."
-            exit 1
-        fi
+# Check if Homebrew is installed (only if using Stow)
+if ! command -v brew &>/dev/null; then
+    if get_yes_no "🍺 Homebrew is not installed. Do you want to install it now?"; then
+        install_homebrew
+    else
+        echo "❌ Homebrew is required for this script. Exiting."
+        exit 1
     fi
-
-    # Install Stow and Zinit if missing
-    if ! command -v stow &>/dev/null; then
-        echo "📦 Stow is not installed. Installing now..."
-        brew install stow
-    fi
-
-    if ! command -v zinit &>/dev/null; then
-        echo "📦 Zinit is not installed. Installing now..."
-        brew install zinit
-    fi
-
-    # Apply Stow to dotfiles
-    stow .
-    stow zsh git -t ~
 fi
 
-# Symlink recommend config file
+# Install Stow and Zinit if missing
+if ! command -v stow &>/dev/null; then
+    echo "📦 Stow is not installed. Installing now..."
+    brew install stow
+fi
+
+if ! command -v zinit &>/dev/null; then
+    echo "📦 Zinit is not installed. Installing now..."
+    brew install zinit
+fi
+
+# Apply Stow to dotfiles
+cd "$DOTFILES_DIR" || exit 1  # Ensure cd succeeds
+stow .
+stow zsh git -t ~
+
+# Symlink recommended config files
 mkdir -p "$HOME/Documents/Personal/github-copilot"
 mkdir -p "$HOME/Documents/Personal/raycast"
 ln -sf "$HOME/Documents/Personal/github-copilot" "$CONFIG_DIR"
 ln -sf "$HOME/Documents/Personal/raycast" "$CONFIG_DIR"
 echo "🔗 Symlinking raycast and github-copilot ..."
 
-# Ask if user wants to install my Brew packages
+# Ask if user wants to install Brew packages
 BREWFILE="$DOTFILES_DIR/brew/Brewfile"
 if [[ -f "$BREWFILE" ]]; then
     if get_yes_no "🍺 Do you want to install my Homebrew packages (Optional)?"; then
@@ -104,5 +93,5 @@ else
 fi
 
 # Final notice
-echo "😻 Setup complete! All dotfiles have been symlinked."
+echo "😻 Stow setup complete! All dotfiles have been symlinked."
 echo "🏠 Apply dotfiles changes use: cd ~/dotfiles && stow ."
