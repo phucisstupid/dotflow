@@ -20,8 +20,6 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dotflow/main/
 - Ensures **Homebrew**, **Stow**, and **Zinit** are installed
 - Uses **Stow** to symlink dotfiles:
 
----
-
 ## ⚠️ Important
 
 * **Backup:** Ensure you have backups of your current configurations before running these scripts.
