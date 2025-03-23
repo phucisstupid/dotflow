@@ -80,7 +80,7 @@ mkdir -p "$HOME/Documents/Personal/github-copilot"
 mkdir -p "$HOME/Documents/Personal/raycast"
 ln -sf "$HOME/Documents/Personal/github-copilot" "$CONFIG_DIR"
 ln -sf "$HOME/Documents/Personal/raycast" "$CONFIG_DIR"
-echo "🔗 Symlinking raycast and github-copilot ..."
+echo "🔗 Symlinked raycast and github-copilot ..."
 
 # Ask if user wants to install Brew packages
 BREWFILE="$DOTFILES_DIR/brew/Brewfile"
