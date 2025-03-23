@@ -15,7 +15,6 @@ install_homebrew() {
         echo "❌ Homebrew installation failed. Please install it manually from https://brew.sh/"
         exit 1
     fi
-    echo "✅ Homebrew installed successfully!"
 }
 
 # Function to get a valid yes/no input
@@ -42,13 +41,6 @@ if ! command -v brew &> /dev/null; then
     fi
 fi
 
-# Check if Stow is installed, install it via Homebrew if missing
-if ! command -v stow &> /dev/null; then
-    echo "🛠 Stow is not installed. Installing it via Homebrew..."
-    brew install stow
-    echo "✅ Stow installed successfully!"
-fi
-
 # Clone dotfiles repository
 DOTFILES_DIR="$HOME/dotfiles"
 CONFIG_DIR="$HOME/.config"
@@ -63,27 +55,30 @@ rm -f ~/.zshrc
 rm -rf "$CONFIG_DIR"
 mkdir -p "$CONFIG_DIR"
 
+# Symlink personal config file
+ln -sf "$HOME/Documents/Personal/github-copilot" "$CONFIG_DIR"
+ln -sf "$HOME/Documents/Personal/raycast" "$CONFIG_DIR"
+echo "✅ Symlink created for GitHub Copilot and Raycast."
+
 # Use GNU Stow to manage dotfiles
-cd "$DOTFILES_DIR"
-if get_yes_no "❄️ `y` to use Nix `n` for Stow"; then  #use nix or not
+cd "$DOTFILES_DIR" || exit 1  # Ensure cd succeeds
+
+if get_yes_no "❄️ `y` to use Nix `n` for Stow"; then
     mv .stow-local-ignore-nix .stow-local-ignore
     stow .
     mv .stow-local-ignore .stow-local-ignore-nix    
 else
+    # Check if Stow and Zinit is installed, install it via Homebrew if missing
+    if ! command -v stow &>/dev/null; then
+        brew install stow
+    fi
+    if ! command -v zinit &>/dev/null; then
+        brew install zinit
+    fi
     mv .stow-local-ignore-nonix .stow-local-ignore
     stow .
     stow zsh git -t ~
-    mv .stow-local-ignore. .stow-local-ignore-nonix
-fi
-
-# Ask if user wants to remove unwanted files
-if get_yes_no "🗑 Do you want to remove unwanted files (e.g., .git, .gitignore, README.md, nix )?"; then
-    rm -rf .git .gitignore README.md nix
-    echo "✅ Unwanted files removed."
-else
-    ln -sf "$HOME/Documents/Personal/github-copilot" "$CONFIG_DIR"
-    ln -sf "$HOME/Documents/Personal/raycast" "$CONFIG_DIR"
-    echo "✅ Symlink created for GitHub Copilot and Raycast."
+    mv .stow-local-ignore .stow-local-ignore-nonix
 fi
 
 # Ask if user wants to install Brew packages
@@ -99,6 +94,5 @@ else
 fi
 
 # Final notice
-echo "🎉 Setup complete! All dotfiles have been symlinked and configured."
-echo "🛠 If you make any changes to your dotfiles, remember to apply them using: "
-echo "   $ cd ~/dotfiles && stow ."
+echo "🎉 Setup complete! All dotfiles have been symlinked."
+echo "🛠 If you make any changes to your dotfiles, remember to apply them using: `$ cd ~/dotfiles && stow .` "
