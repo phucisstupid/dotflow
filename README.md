@@ -1,4 +1,4 @@
-# 🚀 Dotfiles Setup
+# 🚀 Dotflow
 
 Minimal scripts to install and manage my [dotfiles](https://github.com/phucleeuwu/dotfiles) effortlessly.
 
