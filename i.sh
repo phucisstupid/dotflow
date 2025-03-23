@@ -8,10 +8,14 @@ install_homebrew() {
     echo "🔍 Homebrew not found. Installing now..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-    # Ensure Homebrew is in the PATH (handles both Apple Silicon & Intel)
-    eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null || /usr/local/bin/brew shellenv)"
-    
-    if ! command -v brew &> /dev/null; then
+    # Ensure Homebrew is in the PATH
+    if [[ "$(uname -m)" == "arm64" ]]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    else
+        eval "$(/usr/local/bin/brew shellenv)"
+    fi
+
+    if ! command -v brew &>/dev/null; then
         echo "❌ Homebrew installation failed. Please install it manually from https://brew.sh/"
         exit 1
     fi
