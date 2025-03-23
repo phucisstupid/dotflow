@@ -81,23 +81,22 @@ else
     mv .stow-local-ignore .stow-local-ignore-nonix
 fi
 
-# Symlink personal config file
+# Symlink recommend config file
+mkdir -p "$HOME/Documents/Personal/github-copilot"
+mkdir -p "$HOME/Documents/Personal/raycast"
 ln -sf "$HOME/Documents/Personal/github-copilot" "$CONFIG_DIR"
 ln -sf "$HOME/Documents/Personal/raycast" "$CONFIG_DIR"
-echo "✅ Symlink created for GitHub Copilot and Raycast."
 
-# Ask if user wants to install Brew packages
+# Ask if user wants to install my Brew packages
 BREWFILE="$DOTFILES_DIR/brew/Brewfile"
 if [[ -f "$BREWFILE" ]]; then
     if get_yes_no "🍺 Do you want to install my Homebrew packages (Optional)?"; then
         brew bundle --file="$BREWFILE"
-    else
-        echo "⏭ Skipping Homebrew package installation."
     fi
 else
     echo "⚠ No Brewfile found in ~/dotfiles. Skipping Homebrew package installation."
 fi
 
 # Final notice
-echo "🎉 Setup complete! All dotfiles have been symlinked."
-echo "🛠 If you make any changes to your dotfiles, remember to apply them using: $ cd ~/dotfiles && stow ."
+echo "😻 Setup complete! All dotfiles have been symlinked."
+echo "Apply dotfiles changes use: cd ~/dotfiles && stow ."
