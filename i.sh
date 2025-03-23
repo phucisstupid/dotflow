@@ -72,11 +72,16 @@ else
 
     # Install Stow and Zinit if missing
     if ! command -v stow &>/dev/null; then
+        echo "📦 Stow is not installed. Installing now..."
         brew install stow
     fi
+
     if ! command -v zinit &>/dev/null; then
+        echo "📦 Zinit is not installed. Installing now..."
         brew install zinit
     fi
+
+    # Apply Stow to dotfiles
     stow .
     stow zsh git -t ~
 fi
@@ -99,4 +104,4 @@ fi
 
 # Final notice
 echo "😻 Setup complete! All dotfiles have been symlinked."
-echo "Apply dotfiles changes use: cd ~/dotfiles && stow ."
+echo "🏠 Apply dotfiles changes use: cd ~/dotfiles && stow ."
