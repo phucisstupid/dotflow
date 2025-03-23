@@ -64,9 +64,11 @@ mkdir -p "$CONFIG_DIR"
 cd "$DOTFILES_DIR" || exit 1  # Ensure cd succeeds
 
 if get_yes_no "❄️ 'y' to use Nix 'n' for Stow"; then
-    mv .stow-local-ignore-nix .stow-local-ignore
+    mv .stow-local-ignore .stow-local-ignore1
+    mv stow_ignore_for_nix .stow-local-ignore
     stow .
-    mv .stow-local-ignore .stow-local-ignore-nix    
+    mv .stow-local-ignore stow_ignore_for_nix
+    mv .stow-local-ignore1 .stow-local-ignore
 else
     # Check if Stow and Zinit is installed, install it via Homebrew if missing
     if ! command -v stow &>/dev/null; then
@@ -75,10 +77,8 @@ else
     if ! command -v zinit &>/dev/null; then
         brew install zinit
     fi
-    mv .stow-local-ignore-nonix .stow-local-ignore
     stow .
     stow zsh git -t ~
-    mv .stow-local-ignore .stow-local-ignore-nonix
 fi
 
 # Symlink recommend config file
