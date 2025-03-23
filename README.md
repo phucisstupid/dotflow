@@ -9,8 +9,6 @@ Minimal scripts to install and manage my [dotfiles](https://github.com/phucleeuw
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dotflow/main/nix.sh)"
 ```
 
----
-
 ### **Stow 🏠**
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dotflow/main/stow.sh)"
