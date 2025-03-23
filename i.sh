@@ -35,20 +35,10 @@ get_yes_no() {
     done
 }
 
-# Check if Homebrew is installed, prompt user to install if missing
-if ! command -v brew &> /dev/null; then
-    if get_yes_no "🍺 Homebrew is not installed. Do you want to install it now?"; then
-        install_homebrew
-    else
-        echo "❌ Homebrew is required for this script. Exiting."
-        exit 1
-    fi
-fi
-
-# Clone dotfiles repository
 DOTFILES_DIR="$HOME/dotfiles"
 CONFIG_DIR="$HOME/.config"
 
+# Clone dotfiles repository
 echo "🚀 Setting up dotfiles..."
 cd ~
 rm -rf "$DOTFILES_DIR"
@@ -70,7 +60,17 @@ if get_yes_no "❄️ 'y' to use Nix 'n' for Stow"; then
     mv .stow-local-ignore .stow-local-ignore-for-nix
     mv .stow-local-ignore1 .stow-local-ignore
 else
-    # Check if Stow and Zinit is installed, install it via Homebrew if missing
+    # Check if Homebrew is installed *only if using Stow*
+    if ! command -v brew &>/dev/null; then
+        if get_yes_no "🍺 Homebrew is not installed. Do you want to install it now?"; then
+            install_homebrew
+        else
+            echo "❌ Homebrew is required for this script. Exiting."
+            exit 1
+        fi
+    fi
+
+    # Install Stow and Zinit if missing
     if ! command -v stow &>/dev/null; then
         brew install stow
     fi
