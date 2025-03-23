@@ -13,7 +13,8 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dotflow/main/
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dotflow/main/stow.sh)"
 ```
-🛠 **What it does:**
+#### 🛠 **What it does:**
+
 - Clones [dotfiles](https://github.com/phucleeuwu/dotfiles) to `~/dotfiles`
 - Ensures **Homebrew**, **Stow**, and **Zinit** are installed
 - Uses **Stow** to symlink dotfiles:
