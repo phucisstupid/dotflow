@@ -22,14 +22,14 @@ echo "🔗 Symlinking aerospace, ghostty, and karabiner..."
 ln -sf "$DOTFILES_DIR/aerospace" "$CONFIG_DIR/aerospace"
 ln -sf "$DOTFILES_DIR/ghostty" "$CONFIG_DIR/ghostty"
 ln -sf "$DOTFILES_DIR/karabiner" "$CONFIG_DIR/karabiner"
-echo "✅ Symlinked"
+echo  Symlinked"
 
 # Symlink recommended config files
 mkdir -p "$HOME/Documents/Personal/github-copilot"
 mkdir -p "$HOME/Documents/Personal/raycast"
 ln -sf "$HOME/Documents/Personal/github-copilot" "$CONFIG_DIR/github-copilot"
 ln -sf "$HOME/Documents/Personal/raycast" "$CONFIG_DIR/raycast"
-echo "🔗 Symlinked raycast and github-copilot"
+echo "✅ Symlinked raycast and github-copilot"
 
 # Final notice
 echo "😻 Nix setup complete! All dotfiles have been symlinked."
