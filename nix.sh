@@ -18,8 +18,7 @@ rm -rf "$CONFIG_DIR"
 mkdir -p "$CONFIG_DIR"
 
 # Symlink specific configuration files instead of using Stow
-echo "🔗 Symlinking aerospace, ghostty, and karabiner..."
-ln -sf "$DOTFILES_DIR/aerospace" "$CONFIG_DIR/aerospace"
+echo "🔗 Symlinking ghostty, and karabiner..."
 ln -sf "$DOTFILES_DIR/ghostty" "$CONFIG_DIR/ghostty"
 ln -sf "$DOTFILES_DIR/karabiner" "$CONFIG_DIR/karabiner"
 echo  Symlinked"
