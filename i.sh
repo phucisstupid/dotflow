@@ -59,10 +59,6 @@ rm -f ~/.zshrc
 rm -rf "$CONFIG_DIR"
 mkdir -p "$CONFIG_DIR"
 
-# Symlink personal config file
-ln -sf "$HOME/Documents/Personal/github-copilot" "$CONFIG_DIR"
-ln -sf "$HOME/Documents/Personal/raycast" "$CONFIG_DIR"
-echo "✅ Symlink created for GitHub Copilot and Raycast."
 
 # Use GNU Stow to manage dotfiles
 cd "$DOTFILES_DIR" || exit 1  # Ensure cd succeeds
@@ -84,6 +80,11 @@ else
     stow zsh git -t ~
     mv .stow-local-ignore .stow-local-ignore-nonix
 fi
+
+# Symlink personal config file
+ln -sf "$HOME/Documents/Personal/github-copilot" "$CONFIG_DIR"
+ln -sf "$HOME/Documents/Personal/raycast" "$CONFIG_DIR"
+echo "✅ Symlink created for GitHub Copilot and Raycast."
 
 # Ask if user wants to install Brew packages
 BREWFILE="$DOTFILES_DIR/brew/Brewfile"
