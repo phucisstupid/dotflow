@@ -19,10 +19,10 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dotflow/main/
 - Ensures **Homebrew**, **Stow**, and **Zinit** are installed
 - Uses **Stow** to symlink dotfiles:
 
-## ⚠️ Important
+## Important ⚠️
 
 * **Backup:** Ensure you have backups of your current configurations before running these scripts.
 * **Dependencies:** These scripts rely on tools like `git`, `stow` and `brew`. My script will install it for you.
 * **Personal Extras:** links `raycast` and `github-copilot` from `~/Documents/Personal/`, which are automatically backed up to my iCloud ☁️ by Finder.
 
-## 😻 **Enjoy your clean and minimal setup!**
+##  **Enjoy your clean and minimal setup 😻**
