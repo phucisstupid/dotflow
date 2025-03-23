@@ -22,7 +22,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dotflow/main/
 ## Important ⚠️
 
 * **Backup:** Ensure you have backups of your current configurations.
-* **Dependencies:** These scripts rely on tools like `git`, `stow` and `brew`. My script will install it for you.
+* **Dependencies:** These scripts rely on tools like `stow` and `brew`. My script will install it for you.
 * **Personal Extras:** links `raycast` and `github-copilot` from `~/Documents/Personal/`, which are automatically backed up to my iCloud ☁️ by Finder.
 
 ##  **Enjoy your clean and minimal setup 😻**
