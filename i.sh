@@ -67,7 +67,7 @@ echo "✅ Symlink created for GitHub Copilot and Raycast."
 # Use GNU Stow to manage dotfiles
 cd "$DOTFILES_DIR" || exit 1  # Ensure cd succeeds
 
-if get_yes_no "❄️ `y` to use Nix `n` for Stow"; then
+if get_yes_no "❄️ 'y' to use Nix 'n' for Stow"; then
     mv .stow-local-ignore-nix .stow-local-ignore
     stow .
     mv .stow-local-ignore .stow-local-ignore-nix    
@@ -99,4 +99,4 @@ fi
 
 # Final notice
 echo "🎉 Setup complete! All dotfiles have been symlinked."
-echo "🛠 If you make any changes to your dotfiles, remember to apply them using: `$ cd ~/dotfiles && stow .` "
+echo "🛠 If you make any changes to your dotfiles, remember to apply them using: $ cd ~/dotfiles && stow ."
