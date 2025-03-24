@@ -21,7 +21,7 @@ mkdir -p "$CONFIG_DIR"
 echo "🔗 Symlinking ghostty, and karabiner..."
 ln -sf "$DOTFILES_DIR/ghostty" "$CONFIG_DIR/ghostty"
 ln -sf "$DOTFILES_DIR/karabiner" "$CONFIG_DIR/karabiner"
-echo  Symlinked"
+echo  "Symlinked"
 
 # Symlink recommended config files
 mkdir -p "$HOME/Documents/Personal/github-copilot"
