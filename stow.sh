@@ -76,10 +76,10 @@ stow .
 stow zsh git -t ~
 
 # Symlink recommended config files
-mkdir -p "$HOME/Documents/Personal/github-copilot"
-mkdir -p "$HOME/Documents/Personal/raycast"
-ln -sf "$HOME/Documents/Personal/github-copilot" "$CONFIG_DIR"
-ln -sf "$HOME/Documents/Personal/raycast" "$CONFIG_DIR"
+mkdir -p "$HOME/Documents/personal/github-copilot"
+mkdir -p "$HOME/Documents/personal/raycast"
+ln -sf "$HOME/Documents/personal/github-copilot" "$CONFIG_DIR"
+ln -sf "$HOME/Documents/personal/raycast" "$CONFIG_DIR"
 echo "🔗 Symlinked raycast and github-copilot"
 
 # Ask if user wants to install Brew packages
