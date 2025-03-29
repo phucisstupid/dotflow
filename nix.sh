@@ -24,10 +24,10 @@ ln -sf "$DOTFILES_DIR/karabiner" "$CONFIG_DIR/karabiner"
 echo  "Symlinked"
 
 # Symlink recommended config files
-mkdir -p "$HOME/Documents/Personal/github-copilot"
-mkdir -p "$HOME/Documents/Personal/raycast"
-ln -sf "$HOME/Documents/Personal/github-copilot" "$CONFIG_DIR/github-copilot"
-ln -sf "$HOME/Documents/Personal/raycast" "$CONFIG_DIR/raycast"
+mkdir -p "$HOME/Documents/personal/github-copilot"
+mkdir -p "$HOME/Documents/personal/raycast"
+ln -sf "$HOME/Documents/personal/github-copilot" "$CONFIG_DIR/github-copilot"
+ln -sf "$HOME/Documents/personal/raycast" "$CONFIG_DIR/raycast"
 echo "✅ Symlinked raycast and github-copilot"
 
 # Final notice
