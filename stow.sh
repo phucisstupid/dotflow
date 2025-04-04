@@ -91,7 +91,7 @@ if [[ -f "$BREWFILE" ]]; then
 else
     echo "⚠ No Brewfile found in ~/dotfiles. Skipping Homebrew package installation."
 fi
-
+cd dotfiles
 # Final notice
 echo "😻 Stow setup complete! All dotfiles have been symlinked."
 echo "🏠 Apply dotfiles changes use: cd ~/dotfiles && stow ."
