@@ -29,6 +29,6 @@ mkdir -p "$HOME/Documents/personal/raycast"
 ln -sf "$HOME/Documents/personal/github-copilot" "$CONFIG_DIR/github-copilot"
 ln -sf "$HOME/Documents/personal/raycast" "$CONFIG_DIR/raycast"
 echo "✅ Symlinked raycast and github-copilot"
-
+cd dotfiles
 # Final notice
 echo "😻 Nix setup complete! All dotfiles have been symlinked."
