@@ -27,7 +27,7 @@ mkdir -p "$HOME/Documents/personal/github-copilot"
 mkdir -p "$HOME/Documents/personal/raycast"
 ln -sf "$HOME/Documents/personal/github-copilot" "$CONFIG_DIR/github-copilot"
 ln -sf "$HOME/Documents/personal/raycast" "$CONFIG_DIR/raycast"
-echo "✅ Symlinked raycast and github-copilot"
+echo "🔗 Symlinked raycast and github-copilot"
 #!/usr/bin/env bash
 
 # Ask for sudo password upfront
