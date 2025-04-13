@@ -28,15 +28,6 @@ mkdir -p "$HOME/Documents/personal/raycast"
 ln -sf "$HOME/Documents/personal/github-copilot" "$CONFIG_DIR/github-copilot"
 ln -sf "$HOME/Documents/personal/raycast" "$CONFIG_DIR/raycast"
 echo "🔗 Symlinked raycast and github-copilot"
-
-# Install Nix using Determinate Systems installer with custom config
-echo "❄️ Install Nix using Determinate Systems"
-sudo curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | \
-  sh -s -- install --no-confirm --determinate
-
-# Run your dotfiles setup
-echo "Setup dotfiles"
-nix run github:phucleeuwu/dotfiles
 cd dotfiles
 # Final notice
 echo "😻 Nix setup complete! All dotfiles have been symlinked."
