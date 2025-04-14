@@ -11,7 +11,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dotflow/main/
 ```
 
 ### **Stow 🏠**
-Installs [Homebrew](https://brew.sh/), [GNU Stow](https://www.gnu.org/software/stow/), and [Zinit](https://github.com/zdharma-continuum/zinit), then symlinks dotfiles using [Stow](https://www.gnu.org/software/stow/).
+Installs [Homebrew](https://brew.sh/), [Zinit](https://github.com/zdharma-continuum/zinit), then symlinks dotfiles using [GNU Stow](https://www.gnu.org/software/stow/).
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dotflow/main/stow.sh)"
 ```
