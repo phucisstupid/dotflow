@@ -5,19 +5,16 @@ Minimal scripts to install and manage my [dotfiles](https://github.com/phucleeuw
 ## 🔹 Install Options:
 
 ### **Nix ❄️**
+Installs [Determinate Nix](https://docs.determinate.systems/nix/), sets up your environment, symlinks config files, and runs your Nix flake.
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dotflow/main/nix.sh)"
 ```
 
 ### **Stow 🏠**
+Installs [Homebrew](https://brew.sh/), [GNU Stow](https://www.gnu.org/software/stow/), and [Zinit](https://github.com/zdharma-continuum/zinit), then symlinks dotfiles using [Stow](https://www.gnu.org/software/stow/).
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dotflow/main/stow.sh)"
 ```
-#### 🛠 **What it does:**
-
-- Clones [dotfiles](https://github.com/phucleeuwu/dotfiles) to `~/dotfiles`
-- Install **Homebrew**, **Stow**, and **Zinit**.
-- Uses **Stow** to symlink dotfiles:
 
 ## Important ⚠️
 
