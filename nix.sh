@@ -3,6 +3,30 @@
 # Exit immediately if any command fails
 set -e
 
+# Ask for sudo password upfront
+if [ "$EUID" -ne 0 ]; then
+  echo "🔐 Sudo is required. Please enter your password."
+  sudo -v
+fi
+
+# Keep sudo alive until the script ends
+# This runs `sudo -v` every 60 seconds in the background
+# and kills it once the script finishes
+( while true; do sudo -v; sleep 60; done ) &
+KEEP_SUDO_ALIVE_PID=$!
+
+# Ensure cleanup on script exit
+trap 'kill $KEEP_SUDO_ALIVE_PID' EXIT
+
+# Install Nix using Determinate Systems installer
+if ! command -v nix &> /dev/null; then
+  curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | \
+    sh -s -- install --determinate --no-confirm
+  # Source Nix environment (important for immediate use)
+  . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+fi
+
+# Set environment variables
 DOTFILES_DIR="$HOME/dotfiles"
 CONFIG_DIR="$HOME/.config"
 
@@ -23,7 +47,14 @@ mkdir -p "$HOME/Documents/personal/github-copilot"
 mkdir -p "$HOME/Documents/personal/raycast"
 ln -sf "$HOME/Documents/personal/github-copilot" "$CONFIG_DIR/github-copilot"
 ln -sf "$HOME/Documents/personal/raycast" "$CONFIG_DIR/raycast"
+
 echo "🔗 Symlinked karabiner, raycast and github-copilot"
-cd dotfiles
+
+# Change to dotfiles directory
+cd "$DOTFILES_DIR"
+
+# Run your Nix flake from GitHub
+nix run github:phucleeuwu/nixos-config
+
 # Final notice
-echo "😻 Nix setup complete! All dotfiles have been symlinked."
+echo "😻 Nix setup complete! Dotfiles installed and flake executed."
