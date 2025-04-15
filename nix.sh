@@ -27,7 +27,6 @@ NIX_DIR="$HOME/nixos-config"
 CONFIG_DIR="$HOME/.config"
 
 # 🔄 Clone or reset dotfiles and Nix config repos
-echo "🚀 Setting up dotfiles and nixos-config..."
 cd "$HOME"
 rm -rf "$DOTFILES_DIR" "$NIX_DIR"
 git clone --depth 1 https://github.com/phucleeuwu/dotfiles.git "$DOTFILES_DIR"
