@@ -28,6 +28,7 @@ fi
 
 # Set environment variables
 DOTFILES_DIR="$HOME/dotfiles"
+NIX_DIR="$HOME/nixos-config"
 CONFIG_DIR="$HOME/.config"
 
 # Clone dotfiles repository
@@ -35,11 +36,11 @@ echo "🚀 Setting up dotfiles with Nix..."
 cd ~
 rm -rf "$DOTFILES_DIR"
 git clone --depth 1 https://github.com/phucleeuwu/dotfiles.git "$DOTFILES_DIR"
+git clone --depth 1 https://github.com/phucleeuwu/nixos-config.git "$NIX_DIR"
 
 # Remove existing .zshrc and .config
-rm -f ~/.zshrc
-rm -rf "$CONFIG_DIR"
-mkdir -p "$CONFIG_DIR"
+rm -rf "$CONFIG_DIR" "NIX_DIR"
+mkdir -p "$CONFIG_DIR" "NIX_DIR"
 
 # Symlink recommended config files
 ln -sf "$DOTFILES_DIR/karabiner" "$CONFIG_DIR/karabiner"
@@ -51,8 +52,8 @@ ln -sf "$HOME/Documents/personal/raycast" "$CONFIG_DIR/raycast"
 echo "🔗 Symlinked karabiner, raycast and github-copilot"
 
 # Run your Nix flake
-sed -i '' "s/example/$(whoami)/" "$DOTFILES_DIR/nix/config.nix"
-nix run "$DOTFILES_DIR/nix"
+sed -i '' "s/example/$(whoami)/" "$NIX_DIR/config.nix"
+nix run "$NIX_DIR"
 
 # Final notice
 echo "😻 Nix setup complete! Dotfiles installed and flake executed."
