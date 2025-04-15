@@ -50,7 +50,7 @@ ln -sf "$HOME/Documents/personal/raycast" "$CONFIG_DIR/raycast"
 
 echo "🔗 Symlinked karabiner, raycast and github-copilot"
 
-# Run your Nix flake from GitHub
+# Run your Nix flake
 nix run "$DOTFILES_DIR/nix"
 
 # Final notice
