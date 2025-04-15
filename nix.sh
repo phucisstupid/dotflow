@@ -34,13 +34,13 @@ CONFIG_DIR="$HOME/.config"
 # Clone dotfiles repository
 echo "🚀 Setting up dotfiles with Nix..."
 cd ~
-rm -rf "$DOTFILES_DIR"
+rm -rf "$DOTFILES_DIR" "NIX_DIR"
 git clone --depth 1 https://github.com/phucleeuwu/dotfiles.git "$DOTFILES_DIR"
 git clone --depth 1 https://github.com/phucleeuwu/nixos-config.git "$NIX_DIR"
 
-# Remove existing .zshrc and .config
-rm -rf "$CONFIG_DIR" "NIX_DIR"
-mkdir -p "$CONFIG_DIR" "NIX_DIR"
+# Remove existing .config
+rm -rf "$CONFIG_DIR"
+mkdir -p "$CONFIG_DIR"
 
 # Symlink recommended config files
 ln -sf "$DOTFILES_DIR/karabiner" "$CONFIG_DIR/karabiner"
