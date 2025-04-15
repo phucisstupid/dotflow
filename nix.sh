@@ -50,11 +50,8 @@ ln -sf "$HOME/Documents/personal/raycast" "$CONFIG_DIR/raycast"
 
 echo "🔗 Symlinked karabiner, raycast and github-copilot"
 
-# Change to dotfiles directory
-cd "$DOTFILES_DIR"
-
 # Run your Nix flake from GitHub
-nix run github:phucleeuwu/nixos-config
+nix run "$DOTFILES_DIR/nix"
 
 # Final notice
 echo "😻 Nix setup complete! Dotfiles installed and flake executed."
