@@ -51,6 +51,7 @@ ln -sf "$HOME/Documents/personal/raycast" "$CONFIG_DIR/raycast"
 echo "🔗 Symlinked karabiner, raycast and github-copilot"
 
 # Run your Nix flake
+sed -i '' "s/example/$(whoami)/" "$DOTFILES_DIR/nix/config.nix"
 nix run "$DOTFILES_DIR/nix"
 
 # Final notice
