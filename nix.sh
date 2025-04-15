@@ -48,14 +48,7 @@ ln -sf "$HOME/Documents/personal/raycast" "$CONFIG_DIR/raycast"
 echo "🔗 Symlinked karabiner, github-copilot, and raycast configs"
 
 # 🔧 Update username in nixos-config/config.nix
-USERNAME=$(whoami)
-CONFIG_FILE="$NIX_DIR/config.nix"
-
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  sed -i '' "s/^\s*username = \".*\";/    username = \"$USERNAME\";/" "$CONFIG_FILE"
-else
-  sed -i "s/^\s*username = \".*\";/    username = \"$USERNAME\";/" "$CONFIG_FILE"
-fi
+sed -i '' "s/example/$(whoami)/" "$NIX_DIR/config.nix"
 
 # ▶️ Run Nix flake
 echo "🌀 Running nix flake..."
