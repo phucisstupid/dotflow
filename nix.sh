@@ -1,59 +1,65 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Exit immediately if any command fails
-set -e
+set -euo pipefail
 
-# Ask for sudo password upfront
-if [ "$EUID" -ne 0 ]; then
+# 🔐 Ask for sudo password upfront
+if [[ "$EUID" -ne 0 ]]; then
   echo "🔐 Sudo is required. Please enter your password."
   sudo -v
 fi
 
-# Keep sudo alive until the script ends
-# This runs `sudo -v` every 60 seconds in the background
-# and kills it once the script finishes
-( while true; do sudo -v; sleep 60; done ) &
+# 🔁 Keep sudo alive in the background
+(while true; do sudo -n true; sleep 60; done) &
 KEEP_SUDO_ALIVE_PID=$!
-
-# Ensure cleanup on script exit
 trap 'kill $KEEP_SUDO_ALIVE_PID' EXIT
 
-# Install Nix using Determinate Systems installer
+# 📦 Install Nix if not already installed
 if ! command -v nix &> /dev/null; then
+  echo "📥 Installing Nix using Determinate Systems installer..."
   curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | \
     sh -s -- install --determinate --no-confirm
-  # Source Nix environment (important for immediate use)
-  . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+  source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 fi
 
-# Set environment variables
+# 📁 Set paths
 DOTFILES_DIR="$HOME/dotfiles"
 NIX_DIR="$HOME/nixos-config"
 CONFIG_DIR="$HOME/.config"
 
-# Clone dotfiles repository
-echo "🚀 Setting up dotfiles with Nix..."
-cd ~
+# 🔄 Clone or reset dotfiles and Nix config repos
+echo "🚀 Setting up dotfiles and nixos-config..."
+cd "$HOME"
 rm -rf "$DOTFILES_DIR" "$NIX_DIR"
 git clone --depth 1 https://github.com/phucleeuwu/dotfiles.git "$DOTFILES_DIR"
 git clone --depth 1 https://github.com/phucleeuwu/nixos-config.git "$NIX_DIR"
 
-# Remove existing .config
+# ♻️ Reset .config and symlink custom config
 rm -rf "$CONFIG_DIR"
 mkdir -p "$CONFIG_DIR"
 
-# Symlink recommended config files
 ln -sf "$DOTFILES_DIR/karabiner" "$CONFIG_DIR/karabiner"
+
 mkdir -p "$HOME/Documents/personal/github-copilot"
 mkdir -p "$HOME/Documents/personal/raycast"
+
 ln -sf "$HOME/Documents/personal/github-copilot" "$CONFIG_DIR/github-copilot"
 ln -sf "$HOME/Documents/personal/raycast" "$CONFIG_DIR/raycast"
 
-echo "🔗 Symlinked karabiner, raycast and github-copilot"
+echo "🔗 Symlinked karabiner, github-copilot, and raycast configs"
 
-# Run your Nix flake
-sed -i '' "s/example/$(whoami)/" "$NIX_DIR/config.nix"
+# 🔧 Update username in nixos-config/config.nix
+USERNAME=$(whoami)
+CONFIG_FILE="$NIX_DIR/config.nix"
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  sed -i '' "s/^\s*username = \".*\";/    username = \"$USERNAME\";/" "$CONFIG_FILE"
+else
+  sed -i "s/^\s*username = \".*\";/    username = \"$USERNAME\";/" "$CONFIG_FILE"
+fi
+
+# ▶️ Run Nix flake
+echo "🌀 Running nix flake..."
 nix run "$NIX_DIR"
 
-# Final notice
+# ✅ Done
 echo "😻 Nix setup complete! Dotfiles installed and flake executed."
