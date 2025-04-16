@@ -3,17 +3,24 @@
 # Exit immediately if any command fails
 set -e
 
-# Function to install Homebrew
+# Function to install Homebrew (Linux or macOS)
 install_homebrew() {
     echo "🔍 Homebrew not found. Installing now..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-    # Ensure Homebrew is in the PATH
-    if [[ "$(uname -m)" == "arm64" ]]; then
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-    else
-        eval "$(/usr/local/bin/brew shellenv)"
-    fi
+    # Set Homebrew path based on OS and architecture
+    case "$(uname)" in
+        "Darwin")
+            if [[ "$(uname -m)" == "arm64" ]]; then
+                eval "$(/opt/homebrew/bin/brew shellenv)"
+            else
+                eval "$(/usr/local/bin/brew shellenv)"
+            fi
+            ;;
+        "Linux")
+            eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+            ;;
+    esac
 
     if ! command -v brew &>/dev/null; then
         echo "❌ Homebrew installation failed. Please install it manually from https://brew.sh/"
