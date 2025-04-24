@@ -47,7 +47,7 @@ ln -sf "$HOME/Documents/personal/raycast" "$CONFIG_DIR/raycast"
 echo "🔗 Symlinked karabiner, github-copilot, and raycast configs"
 
 # 🔧 Update username in nixos-config/config.nix
-sed -i '' "s/phuc/$(whoami)/" "$NIX_DIR/config.nix"
+sed -i '' "s/phuclee/$(whoami)/" "$NIX_DIR/config.nix"
 
 # ▶️ Run Nix flake
 echo "🌀 Running nix flake..."
