@@ -62,4 +62,4 @@ echo "🌀 Running nix flake..."
 nix run "$NIX_DIR"
 
 # ✅ Done
-echo "😻 Nix setup complete! Dotfiles installed and flake executed."
+echo "😻 Nix setup complete! Please restart your computer."
