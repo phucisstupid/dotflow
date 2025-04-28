@@ -20,7 +20,7 @@ if ! command -v nix &> /dev/null; then
   source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 fi
 
-GIT_CMD="nix-shell nixpkgs#git --"
+nix-shell nixpkgs#git
 
 # 📁 Set paths
 DOTFILES_DIR="$HOME/dotfiles"
@@ -30,8 +30,8 @@ CONFIG_DIR="$HOME/.config"
 # 🔄 Clone or reset dotfiles and Nix config repos
 cd "$HOME"
 rm -rf "$DOTFILES_DIR" "$NIX_DIR"
-$GIT_CMD clone --depth 1 https://github.com/phucleeuwu/dotfiles.git "$DOTFILES_DIR"
-$GIT_CMD clone --depth 1 https://github.com/phucleeuwu/nixos-config.git "$NIX_DIR"
+git clone --depth 1 https://github.com/phucleeuwu/dotfiles.git "$DOTFILES_DIR"
+git clone --depth 1 https://github.com/phucleeuwu/nixos-config.git "$NIX_DIR"
 
 # ♻️ Reset .config and symlink custom config
 rm -rf "$CONFIG_DIR"
