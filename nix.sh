@@ -20,7 +20,7 @@ if ! command -v nix &> /dev/null; then
   source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 fi
 
-GIT_CMD="nix run nixpkgs#git --"
+GIT_CMD="nix-shell -p git --"
 
 # 📁 Set paths
 DOTFILES_DIR="$HOME/dotfiles"
