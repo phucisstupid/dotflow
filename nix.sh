@@ -15,18 +15,12 @@ trap 'kill $KEEP_SUDO_ALIVE_PID' EXIT
 
 # 📦 Install Nix if not already installed
 if ! command -v nix &> /dev/null; then
-  echo "📥 Installing Nix using Determinate Systems installer..."
+  echo "📥 Installing Nix using Lix installer..."
   curl --proto '=https' --tlsv1.2 -sSf -L https://install.lix.systems/lix | sh -s -- install --no-confirm
   source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 fi
 
-# 🔍 Check if git is available
-if ! command -v git &> /dev/null; then
-  echo "📥 Git not found, running via nix..."
-  GIT_CMD="nix run nixpkgs#git --"
-else
-  GIT_CMD="git"
-fi
+GIT_CMD="nix run nixpkgs#git --"
 
 # 📁 Set paths
 DOTFILES_DIR="$HOME/dotfiles"
