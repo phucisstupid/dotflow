@@ -20,8 +20,6 @@ if ! command -v nix &> /dev/null; then
   source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 fi
 
-nix profile install nixpkgs#git
-
 # 📁 Set paths
 DOTFILES_DIR="$HOME/dotfiles"
 NIX_DIR="$HOME/nixos-config"
