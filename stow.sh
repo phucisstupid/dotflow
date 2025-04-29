@@ -5,41 +5,41 @@ set -e
 
 # Function to install Homebrew (Linux or macOS)
 install_homebrew() {
-    echo "🔍 Homebrew not found. Installing now..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  echo "🔍 Homebrew not found. Installing now..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-    # Set Homebrew path based on OS and architecture
-    case "$(uname)" in
-        "Darwin")
-            if [[ "$(uname -m)" == "arm64" ]]; then
-                eval "$(/opt/homebrew/bin/brew shellenv)"
-            else
-                eval "$(/usr/local/bin/brew shellenv)"
-            fi
-            ;;
-        "Linux")
-            eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-            ;;
-    esac
-
-    if ! command -v brew &>/dev/null; then
-        echo "❌ Homebrew installation failed. Please install it manually from https://brew.sh/"
-        exit 1
+  # Set Homebrew path based on OS and architecture
+  case "$(uname)" in
+  "Darwin")
+    if [[ "$(uname -m)" == "arm64" ]]; then
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+    else
+      eval "$(/usr/local/bin/brew shellenv)"
     fi
+    ;;
+  "Linux")
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    ;;
+  esac
+
+  if ! command -v brew &>/dev/null; then
+    echo "❌ Homebrew installation failed. Please install it manually from https://brew.sh/"
+    exit 1
+  fi
 }
 
 # Function to get a valid yes/no input
 get_yes_no() {
-    local prompt="$1"
-    local response
-    while true; do
-        read -p "$prompt (y/n) " response
-        case "$response" in
-            [Yy]) return 0 ;;  # Yes
-            [Nn]) return 1 ;;  # No
-            *) echo "❌ Invalid choice. Please enter 'y' for Yes or 'n' for No." ;;
-        esac
-    done
+  local prompt="$1"
+  local response
+  while true; do
+    read -p "$prompt (y/n) " response
+    case "$response" in
+    [Yy]) return 0 ;; # Yes
+    [Nn]) return 1 ;; # No
+    *) echo "❌ Invalid choice. Please enter 'y' for Yes or 'n' for No." ;;
+    esac
+  done
 }
 
 DOTFILES_DIR="$HOME/dotfiles"
@@ -58,27 +58,27 @@ mkdir -p "$CONFIG_DIR"
 
 # Check if Homebrew is installed (only if using Stow)
 if ! command -v brew &>/dev/null; then
-    if get_yes_no "🍺 Homebrew is not installed. Do you want to install it now?"; then
-        install_homebrew
-    else
-        echo "❌ Homebrew is required for this script. Exiting."
-        exit 1
-    fi
+  if get_yes_no "🍺 Homebrew is not installed. Do you want to install it now?"; then
+    install_homebrew
+  else
+    echo "❌ Homebrew is required for this script. Exiting."
+    exit 1
+  fi
 fi
 
 # Install Stow and Zinit if missing
 if ! command -v stow &>/dev/null; then
-    echo "📦 Stow is not installed. Installing now..."
-    brew install stow
+  echo "📦 Stow is not installed. Installing now..."
+  brew install stow
 fi
 
 if ! command -v zinit &>/dev/null; then
-    echo "📦 Zinit is not installed. Installing now..."
-    brew install zinit
+  echo "📦 Zinit is not installed. Installing now..."
+  brew install zinit
 fi
 
 # Apply Stow to dotfiles
-cd "$DOTFILES_DIR" || exit 1  # Ensure cd succeeds
+cd "$DOTFILES_DIR" || exit 1 # Ensure cd succeeds
 stow .
 stow zsh -t ~
 
@@ -92,11 +92,11 @@ echo "🔗 Symlinked raycast and github-copilot"
 # Ask if user wants to install Brew packages
 BREWFILE="$DOTFILES_DIR/brew/Brewfile"
 if [[ -f "$BREWFILE" ]]; then
-    if get_yes_no "🍺 Do you want to install my Homebrew packages (Optional)?"; then
-        brew bundle --file="$BREWFILE"
-    fi
+  if get_yes_no "🍺 Do you want to install my Homebrew packages (Optional)?"; then
+    brew bundle --file="$BREWFILE"
+  fi
 else
-    echo "⚠ No Brewfile found in ~/dotfiles. Skipping Homebrew package installation."
+  echo "⚠ No Brewfile found in ~/dotfiles. Skipping Homebrew package installation."
 fi
 cd dotfiles
 # Final notice
