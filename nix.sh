@@ -51,6 +51,7 @@ echo "🔗 Symlinked karabiner, github-copilot, and raycast configs"
 
 # 🔧 Update username in nixos-config/config.nix
 sed -i '' "s/chess/$(whoami)/" "$NIX_DIR/config.nix"
+sed -i '' "s/wow/$(whoami)/" "$NIX_DIR/config.nix"
 
 # ▶️ Run Nix flake
 echo "🌀 Running nix flake..."
