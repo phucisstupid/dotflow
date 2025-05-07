@@ -102,4 +102,4 @@ fi
 cd "$DOTFILES_DIR"
 # Final notice
 echo "😻 Stow setup complete! All dotfiles have been symlinked."
-echo "🏠 Apply dotfiles changes use: cd ~/dotfiles-stow && stow ."
+echo "🏠 Apply dotfiles in next changes use: cd ~/dotfiles-stow && stow ."
