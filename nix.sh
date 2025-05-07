@@ -20,7 +20,7 @@ trap 'kill "$KEEP_SUDO_ALIVE_PID"' EXIT
 if ! command -v nix &>/dev/null; then
   echo "📥 Installing Nix using Determinate Systems installer..."
   curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix |
-    sh -s -- install --no-confirm
+    sh -s -- install --no-confirm --determinate
   # Source nix profile (adjust if on non-Darwin system)
   if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
     source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
