@@ -14,32 +14,35 @@ fi
   sleep 60
 done) &
 KEEP_SUDO_ALIVE_PID=$!
-trap 'kill $KEEP_SUDO_ALIVE_PID' EXIT
+trap 'kill "$KEEP_SUDO_ALIVE_PID"' EXIT
 
 # 📦 Install Nix if not already installed
 if ! command -v nix &>/dev/null; then
   echo "📥 Installing Nix using Determinate Systems installer..."
   curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix |
     sh -s -- install --no-confirm
-  source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+  # Source nix profile (adjust if on non-Darwin system)
+  if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
+    source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+  fi
 fi
 
 # 📁 Set paths
-DOTFILES_DIR="$HOME/dotfiles"
-NIX_DIR="$HOME/nixos-config"
+NIX_DIR="$HOME/dotfiles"
+DOTFILES_STOW_DIR="$HOME/dotfiles-stow"
 CONFIG_DIR="$HOME/.config"
 
 # 🔄 Clone or reset dotfiles and Nix config repos
 cd "$HOME"
-rm -rf "$DOTFILES_DIR" "$NIX_DIR"
-git clone --depth 1 https://github.com/phucleeuwu/dotfiles.git "$DOTFILES_DIR"
-git clone --depth 1 https://github.com/phucleeuwu/nixos-config.git "$NIX_DIR"
+rm -rf "$NIX_DIR" "$DOTFILES_STOW_DIR"
+git clone --depth 1 https://github.com/phucleeuwu/dotfiles.git "$NIX_DIR"
+git clone --depth 1 https://github.com/phucleeuwu/nixos-config.git "$DOTFILES_STOW_DIR"
 
 # ♻️ Reset .config and symlink custom config
 rm -rf "$CONFIG_DIR"
 mkdir -p "$CONFIG_DIR"
 
-ln -sf "$DOTFILES_DIR/karabiner" "$CONFIG_DIR/karabiner"
+ln -sf "$DOTFILES_STOW_DIR/karabiner" "$CONFIG_DIR/karabiner"
 
 mkdir -p "$HOME/Documents/personal/github-copilot"
 mkdir -p "$HOME/Documents/personal/raycast"
@@ -49,9 +52,11 @@ ln -sf "$HOME/Documents/personal/raycast" "$CONFIG_DIR/raycast"
 
 echo "🔗 Symlinked karabiner, github-copilot, and raycast configs"
 
-# 🔧 Update username in nixos-config/config.nix
-sed -i '' "s/chess/$(whoami)/" "$NIX_DIR/config.nix"
-sed -i '' "s/wow/$(whoami)/" "$NIX_DIR/config.nix"
+# 🔧 Update username in dotfiles/config.nix
+if [[ -f "$NIX_DIR/config.nix" ]]; then
+  sed -i '' "s/chess/$(whoami)/g" "$NIX_DIR/config.nix"
+  sed -i '' "s/wow/$(whoami)/g" "$NIX_DIR/config.nix"
+fi
 
 # ▶️ Run Nix flake
 echo "🌀 Running nix flake..."
