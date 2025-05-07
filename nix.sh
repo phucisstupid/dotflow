@@ -36,7 +36,7 @@ CONFIG_DIR="$HOME/.config"
 cd "$HOME"
 rm -rf "$NIX_DIR" "$DOTFILES_STOW_DIR"
 git clone --depth 1 https://github.com/phucleeuwu/dotfiles.git "$NIX_DIR"
-git clone --depth 1 https://github.com/phucleeuwu/nixos-config.git "$DOTFILES_STOW_DIR"
+git clone --depth 1 https://github.com/phucleeuwu/dotfiles-stow.git "$DOTFILES_STOW_DIR"
 
 # ♻️ Reset .config and symlink custom config
 rm -rf "$CONFIG_DIR"
