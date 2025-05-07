@@ -42,14 +42,14 @@ get_yes_no() {
   done
 }
 
-DOTFILES_DIR="$HOME/dotfiles"
+DOTFILES_DIR="$HOME/dotfiles-stow"
 CONFIG_DIR="$HOME/.config"
 
 # Clone dotfiles repository
-echo "🚀 Setting up dotfiles with Stow..."
+echo "🚀 Setting up dotfiles-stow with Stow..."
 cd ~
 rm -rf "$DOTFILES_DIR"
-git clone --depth 1 https://github.com/phucleeuwu/dotfiles.git "$DOTFILES_DIR"
+git clone --depth 1 https://github.com/phucleeuwu/dotfiles-stow.git "$DOTFILES_DIR"
 
 # Remove existing .zshrc and .config
 rm -f ~/.zshrc
@@ -96,9 +96,10 @@ if [[ -f "$BREWFILE" ]]; then
     brew bundle --file="$BREWFILE"
   fi
 else
-  echo "⚠ No Brewfile found in ~/dotfiles. Skipping Homebrew package installation."
+  echo "⚠ No Brewfile found in ~/dotfiles-stow. Skipping Homebrew package installation."
 fi
-cd dotfiles
+
+cd "$DOTFILES_DIR"
 # Final notice
 echo "😻 Stow setup complete! All dotfiles have been symlinked."
-echo "🏠 Apply dotfiles changes use: cd ~/dotfiles && stow ."
+echo "🏠 Apply dotfiles changes use: cd ~/dotfiles-stow && stow ."
