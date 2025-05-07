@@ -24,6 +24,6 @@ if ! command -v nix &> /dev/null; then
 fi
 
 # Run your Nix flake from GitHub
-nix run github:phucleeuwu/nixos-config
+nix run github:phucleeuwu/dotfiles
 
 echo "🎉 Nix flake execution complete!"
