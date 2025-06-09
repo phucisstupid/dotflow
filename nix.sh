@@ -62,4 +62,4 @@ echo "🌀 Running nix flake..."
 nix run "$NIX_DIR"
 
 # ✅ Done
-echo "😻 Nix setup complete! Please restart your computer."
+echo "🤩 Setup complete! Please allow apps accessibility and restart your computer."
