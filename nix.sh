@@ -54,7 +54,6 @@ echo "🔗 Symlinked karabiner, github-copilot, and raycast configs"
 
 # 🔧 Update username in dotfiles/config.nix
 if [[ -f "$NIX_DIR/config.nix" ]]; then
-  sed -i '' "s/chess/$(whoami)/g" "$NIX_DIR/config.nix"
   sed -i '' "s/wow/$(whoami)/g" "$NIX_DIR/config.nix"
 fi
 
