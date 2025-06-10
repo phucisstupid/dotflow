@@ -42,7 +42,6 @@ rm -rf "$CONFIG_DIR"
 mkdir -p "$CONFIG_DIR"
 
 ln -sf "$DOTFILES_STOW_DIR/karabiner" "$CONFIG_DIR/karabiner"
-ln -sf "$DOTFILES_STOW_DIR/ghostty" "$CONFIG_DIR/ghostty"
 
 mkdir -p "$HOME/Documents/personal/github-copilot"
 mkdir -p "$HOME/Documents/personal/raycast"
