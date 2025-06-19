@@ -80,7 +80,8 @@ fi
 # Apply Stow to dotfiles
 cd "$DOTFILES_DIR" || exit 1 # Ensure cd succeeds
 stow .
-stow zsh -t ~
+stow zsh/ -t ~
+stow simplebar/ -t ~
 
 # Symlink recommended config files
 mkdir -p "$HOME/Documents/personal/github-copilot"
