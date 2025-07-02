@@ -5,7 +5,7 @@ Minimal scripts to install and manage my [dotfiles](https://github.com/phucisstu
 ## 🔹 Install Options:
 
 ### **Nix ❄️**
-Installs [Lix](https://docs.lix.systems/), sets up your environment, symlinks config files, and runs your Nix flake.
+Installs [Lix](https://docs.lix.systems/manual/lix), sets up your environment, symlinks config files, and runs your Nix flake.
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucisstupid/dotflow/main/nix.sh)"
 ```
