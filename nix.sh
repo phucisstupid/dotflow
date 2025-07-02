@@ -19,7 +19,7 @@ trap 'kill "$KEEP_SUDO_ALIVE_PID"' EXIT
 # 📦 Install Nix if not already installed
 if ! command -v nix &>/dev/null; then
   echo "📥 Installing Nix using Lix installer..."
-  curl -sSf -L https://install.lix.systems/lix | sh -s -- install -- no-confirm
+  curl -sSf -L https://install.lix.systems/lix | sh -s -- install
 # Source nix profile (adjust if on non-Darwin system)
   if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
     source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
