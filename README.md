@@ -1,19 +1,19 @@
 # 🚀 Dotflow
 
-Minimal scripts to install and manage my [dotfiles](https://github.com/phucleeuwu/dotfiles) effortlessly.
+Minimal scripts to install and manage my [dotfiles](https://github.com/phucisstupid/dotfiles) effortlessly.
 
 ## 🔹 Install Options:
 
 ### **Nix ❄️**
-Installs [Determinate Nix](https://docs.determinate.systems/nix/), sets up your environment, symlinks config files, and runs your Nix flake.
+Installs [Lix](https://docs.lix.systems/), sets up your environment, symlinks config files, and runs your Nix flake.
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dotflow/main/nix.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucisstupid/dotflow/main/nix.sh)"
 ```
 
 ### **Stow 🏠**
 Installs [Homebrew](https://brew.sh/), [Zinit](https://github.com/zdharma-continuum/zinit), then symlinks dotfiles using [GNU Stow](https://www.gnu.org/software/stow/).
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucleeuwu/dotflow/main/stow.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucisstupid/dotflow/main/stow.sh)"
 ```
 
 ## Important ⚠️
