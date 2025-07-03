@@ -21,7 +21,7 @@ if ! command -v nix &>/dev/null; then
   echo "📥 Installing Nix using Lix installer..."
   curl -sSf -L https://install.lix.systems/lix | sh -s -- install --no-confirm
   # Source nix profile
-  . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+  /nix/nix-installer repair
 fi
 
 # 📁 Set paths
