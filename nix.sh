@@ -22,7 +22,7 @@ if ! command -v nix &>/dev/null; then
   curl --proto '=https' --tlsv1.2 -sSf -L https://install.lix.systems/lix | sh -s -- install --no-confirm
   # Source nix profile (adjust if on non-Darwin system)
   if [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
-    source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+    . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
   fi
 fi
 
