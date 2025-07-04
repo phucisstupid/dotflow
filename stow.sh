@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Exit immediately if any command fails
 set -euo pipefail
+IFS=$'\n\t'
 
 # Function to install Homebrew
 install_homebrew() {
