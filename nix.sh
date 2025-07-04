@@ -79,6 +79,16 @@ else
   log "⚠ No config.nix found. Skipping username update."
 fi
 
+# 📁 Ensure hostname-based Darwin config exists
+DARWIN_HOST=$(hostname -s)
+DARWIN_PATH="$NIX_DIR/configuration/darwin/$DARWIN_HOST"
+SOURCE_NIX="$NIX_DIR/configuration/darwin/192/default.nix"
+
+log "Preparing darwin configuration for host: $DARWIN_HOST..."
+mkdir -p "$DARWIN_PATH"
+cp "$SOURCE_NIX" "$DARWIN_PATH"
+success "Copied default.nix to $DARWIN_PATH"
+
 # ▶️ Run flake
 log "Running nix flake..."
 nix run "$NIX_DIR"
