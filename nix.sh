@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
+IFS=$'\n\t'
 
 # 🛡 Color definitions
 GREEN="\033[0;32m"
