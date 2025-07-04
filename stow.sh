@@ -3,6 +3,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+# 🔐 Ask for sudo upfront
 if [[ "$EUID" -ne 0 ]]; then
   log "Sudo is required. Please enter your password."
   sudo -v
