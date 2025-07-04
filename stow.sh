@@ -3,6 +3,11 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+if [[ "$EUID" -ne 0 ]]; then
+  log "Sudo is required. Please enter your password."
+  sudo -v
+fi
+
 # Function to install Homebrew
 install_homebrew() {
   echo "🔍 Homebrew not found. Installing now..."
