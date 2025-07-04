@@ -78,6 +78,12 @@ if ! command -v zinit &>/dev/null; then
   brew install zinit
 fi
 
+# Install starship if missing
+if ! command -v starship &>/dev/null; then
+  echo "📦 Installing Starship..."
+  brew install starship
+fi
+
 # Apply Stow
 cd "$DOTFILES_DIR"
 stow .
@@ -120,6 +126,7 @@ if get_yes_no "✨ Do you want to install my SketchyBar config and helpers?"; th
 
   # Restart SketchyBar
   brew services restart sketchybar
+  sketchybar --reload
 fi
 
 # Install Brewfile packages
