@@ -108,7 +108,7 @@ if get_yes_no "✨ Install SketchyBar config and helpers?"; then
 
   brew services restart sketchybar
   sketchybar --reload
-  success "SketchyBar reloaded."
+  success "SketchyBar loaded."
 fi
 
 BREWFILE="$DOTFILES_DIR/brew/Brewfile"
