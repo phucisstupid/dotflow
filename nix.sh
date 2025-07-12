@@ -59,7 +59,7 @@ if [[ -f "$CONFIG_NIX" ]]; then
   if [[ "$(uname)" == "Darwin" ]]; then
     log "Replacing config.nix username with '$uname' and creating Darwin host for '$DARWIN_HOST'..."
     mkdir -p "$DARWIN_PATH"
-    cp "$SOURCE_NIX" "$DARWIN_PATH/default.nix"
+    rsync -a "$SOURCE_NIX" "$DARWIN_PATH/default.nix"
     sed -i '' "s/wow/${uname}/g" "$CONFIG_NIX"
   else
     sed -i "s/wow/${uname}/g" "$CONFIG_NIX"
