@@ -23,7 +23,7 @@ trap 'kill "$KEEP_SUDO_ALIVE_PID" &>/dev/null' EXIT
 
 if ! command -v nix &>/dev/null; then
   log "Installing Nix..."
-  curl -sSfL https://install.lix.systems/lix | sh -s -- install --no-confirm
+  curl -fsSL https://install.determinate.systems/nix | sh -s -- install
   /nix/nix-installer repair
   success "Nix installed."
 else
