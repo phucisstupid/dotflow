@@ -24,7 +24,7 @@ trap 'kill "$KEEP_SUDO_ALIVE_PID" &>/dev/null' EXIT
 if ! command -v nix &>/dev/null; then
   log "Installing Nix..."
   curl -fsSL https://install.determinate.systems/nix | sh -s -- install
-  /nix/nix-installer repair
+  . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
   success "Nix installed."
 else
   success "Nix already installed."
