@@ -9,6 +9,8 @@ RESET="\033[0m"
 log() { echo -e "${YELLOW}➤ $1${RESET}"; }
 success() { echo -e "${GREEN}✔ $1${RESET}"; }
 
+MODE="${1:-all}" # <-- read the first argument
+
 if [[ "$EUID" -ne 0 ]]; then
   log "Sudo required. Enter your password."
   sudo -v
@@ -88,27 +90,29 @@ mkdir -p "$HOME/Documents/personal/github-copilot"
 ln -sf "$HOME/Documents/personal/github-copilot" "$CONFIG_DIR"
 success "Symlinked GitHub Copilot configs."
 
-if get_yes_no "✨ Install SketchyBar config and helpers?"; then
-  log "Installing SketchyBar dependencies..."
-  brew install lua switchaudio-osx nowplaying-cli
-  brew tap FelixKratz/formulae
-  brew install sketchybar
-  brew install --cask sf-symbols font-sketchybar-app-font
+if [[ "$MODE" == "all" || "$MODE" == "--sketchybar" ]]; then
+  if get_yes_no "✨ Install SketchyBar config and helpers?"; then
+    log "Installing SketchyBar dependencies..."
+    brew install lua switchaudio-osx nowplaying-cli
+    brew tap FelixKratz/formulae
+    brew install sketchybar
+    brew install --cask sf-symbols font-sketchybar-app-font
 
-  latest_tag=$(curl -s https://api.github.com/repos/kvndrsslr/sketchybar-app-font/releases/latest | grep '"tag_name":' | cut -d '"' -f 4)
-  font_url="https://github.com/kvndrsslr/sketchybar-app-font/releases/download/${latest_tag}/icon_map.lua"
-  output_path="$CONFIG_DIR/sketchybar/helpers/icon_map.lua"
-  mkdir -p "$(dirname "$output_path")"
-  curl -L "$font_url" -o "$output_path"
-  success "Downloaded icon_map.lua."
+    latest_tag=$(curl -s https://api.github.com/repos/kvndrsslr/sketchybar-app-font/releases/latest | grep '"tag_name":' | cut -d '"' -f 4)
+    font_url="https://github.com/kvndrsslr/sketchybar-app-font/releases/download/${latest_tag}/icon_map.lua"
+    output_path="$CONFIG_DIR/sketchybar/helpers/icon_map.lua"
+    mkdir -p "$(dirname "$output_path")"
+    curl -L "$font_url" -o "$output_path"
+    success "Downloaded icon_map.lua."
 
-  log "Installing SbarLua..."
-  (git clone https://github.com/FelixKratz/SbarLua.git /tmp/SbarLua && cd /tmp/SbarLua/ && make install && rm -rf /tmp/SbarLua/)
-  success "SbarLua installed."
+    log "Installing SbarLua..."
+    (git clone https://github.com/FelixKratz/SbarLua.git /tmp/SbarLua && cd /tmp/SbarLua/ && make install && rm -rf /tmp/SbarLua/)
+    success "SbarLua installed."
 
-  brew services restart sketchybar
-  sketchybar --reload
-  success "SketchyBar loaded."
+    brew services restart sketchybar
+    sketchybar --reload
+    success "SketchyBar loaded."
+  fi
 fi
 
 BREWFILE="$DOTFILES_DIR/brew/Brewfile"
