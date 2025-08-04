@@ -9,7 +9,7 @@ RESET="\033[0m"
 log() { echo -e "${YELLOW}➤ $1${RESET}"; }
 success() { echo -e "${GREEN}✔ $1${RESET}"; }
 
-MODE="${1:-all}" # <-- read the first argument
+MODE="${1:-all}"  # Accepts either 'all' (default) or '--sketchybar'
 
 if [[ "$EUID" -ne 0 ]]; then
   log "Sudo required. Enter your password."
@@ -21,8 +21,8 @@ get_yes_no() {
   while true; do
     read -p "$prompt (y/n) " response
     case "$response" in
-    [Yy]) return 0 ;;
-    [Nn]) return 1 ;;
+      [Yy]) return 0 ;;
+      [Nn]) return 1 ;;
     esac
   done
 }
@@ -31,12 +31,12 @@ install_homebrew() {
   log "Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   case "$(uname)" in
-  Darwin)
-    [[ "$(uname -m)" == "arm64" ]] && eval "$(/opt/homebrew/bin/brew shellenv)" || eval "$(/usr/local/bin/brew shellenv)"
-    ;;
-  Linux)
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-    ;;
+    Darwin)
+      [[ "$(uname -m)" == "arm64" ]] && eval "$(/opt/homebrew/bin/brew shellenv)" || eval "$(/usr/local/bin/brew shellenv)"
+      ;;
+    Linux)
+      eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+      ;;
   esac
   success "Homebrew installed."
 }
@@ -44,55 +44,66 @@ install_homebrew() {
 DOTFILES_DIR="$HOME/dotfiles-stow"
 CONFIG_DIR="$HOME/.config"
 
-cd ~
-rm -rf "$DOTFILES_DIR"
-git clone --depth 1 https://github.com/phucisstupid/dotfiles-stow.git "$DOTFILES_DIR"
-success "Cloned dotfiles-stow."
+# ----------------------
+# 🧩 MAIN SETUP (only if not --sketchybar)
+# ----------------------
+if [[ "$MODE" == "all" ]]; then
+  cd ~
+  rm -rf "$DOTFILES_DIR"
+  git clone --depth 1 https://github.com/phucisstupid/dotfiles-stow.git "$DOTFILES_DIR"
+  success "Cloned dotfiles-stow."
 
-rm -f ~/.zshrc
-rm -rf "$CONFIG_DIR"
-mkdir -p "$CONFIG_DIR"
-success "Reset .zshrc and .config."
+  rm -f ~/.zshrc
+  rm -rf "$CONFIG_DIR"
+  mkdir -p "$CONFIG_DIR"
+  success "Reset .zshrc and .config."
 
-if ! command -v brew &>/dev/null; then
-  if get_yes_no "🍺 Homebrew not found. Install?"; then
-    install_homebrew
+  if ! command -v brew &>/dev/null; then
+    if get_yes_no "🍺 Homebrew not found. Install?"; then
+      install_homebrew
+    else
+      log "Homebrew is required. Exiting."
+      exit 1
+    fi
   else
-    log "Homebrew is required. Exiting."
-    exit 1
+    success "Homebrew already installed."
   fi
-else
-  success "Homebrew already installed."
+
+  for pkg in stow zinit starship; do
+    if ! command -v "$pkg" &>/dev/null; then
+      log "Installing $pkg..."
+      brew install "$pkg"
+      success "$pkg installed."
+    else
+      success "$pkg already installed."
+    fi
+  done
+
+  cd "$DOTFILES_DIR"
+  stow .
+  stow simple-bar/ zsh/ -t ~
+  success "Applied stow configs."
+
+  mkdir -p "$HOME/Documents/personal/github-copilot"
+  ln -sf "$HOME/Documents/personal/github-copilot" "$CONFIG_DIR"
+  success "Symlinked GitHub Copilot configs."
+
+  BREWFILE="$DOTFILES_DIR/brew/Brewfile"
+  if [[ -f "$BREWFILE" ]]; then
+    if get_yes_no "🍺 Install Homebrew packages from Brewfile?"; then
+      brew bundle --file="$BREWFILE"
+      success "Installed packages from Brewfile."
+    fi
+  fi
 fi
 
-command -v stow &>/dev/null || {
-  log "Installing Stow..."
-  brew install stow
-  success "Stow installed."
-}
-command -v zinit &>/dev/null || {
-  log "Installing Zinit..."
-  brew install zinit
-  success "Zinit installed."
-}
-command -v starship &>/dev/null || {
-  log "Installing Starship..."
-  brew install starship
-  success "Starship installed."
-}
-
-cd "$DOTFILES_DIR"
-stow .
-stow simple-bar/ zsh/ -t ~
-success "Applied stow configs."
-
-mkdir -p "$HOME/Documents/personal/github-copilot"
-ln -sf "$HOME/Documents/personal/github-copilot" "$CONFIG_DIR"
-success "Symlinked GitHub Copilot configs."
-
+# ----------------------
+# 🎨 SKETCHYBAR SETUP
+# ----------------------
 if [[ "$MODE" == "all" || "$MODE" == "--sketchybar" ]]; then
   if get_yes_no "✨ Install SketchyBar config and helpers?"; then
     log "Installing SketchyBar dependencies..."
+
     brew install lua switchaudio-osx nowplaying-cli
     brew tap FelixKratz/formulae
     brew install sketchybar
@@ -115,12 +126,4 @@ if [[ "$MODE" == "all" || "$MODE" == "--sketchybar" ]]; then
   fi
 fi
 
-BREWFILE="$DOTFILES_DIR/brew/Brewfile"
-if [[ -f "$BREWFILE" ]]; then
-  if get_yes_no "🍺 Install Homebrew packages from Brewfile?"; then
-    brew bundle --file="$BREWFILE"
-    success "Installed packages from Brewfile."
-  fi
-fi
-
-log "Dotfiles setup complete."
+log "✅ Dotfiles setup complete."
