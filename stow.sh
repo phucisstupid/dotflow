@@ -101,7 +101,7 @@ if [[ "$MODE" == "all" || "$MODE" == "--sketchybar" ]]; then
     brew install lua switchaudio-osx nowplaying-cli
     brew tap FelixKratz/formulae
     brew install sketchybar
-    brew install --cask sf-symbols font-sketchybar-app-font
+    brew install --cask sf-symbols font-sketchybar-app-font font-maple-mono
 
     latest_tag=$(curl -s https://api.github.com/repos/kvndrsslr/sketchybar-app-font/releases/latest | grep '"tag_name":' | cut -d '"' -f 4)
     font_url="https://github.com/kvndrsslr/sketchybar-app-font/releases/download/${latest_tag}/icon_map.lua"
