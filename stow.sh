@@ -69,15 +69,9 @@ if [[ "$MODE" == "all" ]]; then
     success "Homebrew already installed."
   fi
 
-  for pkg in stow zinit starship; do
-    if ! command -v "$pkg" &>/dev/null; then
-      log "Installing $pkg..."
-      brew install "$pkg"
-      success "$pkg installed."
-    else
-      success "$pkg already installed."
-    fi
-  done
+  log "Installing stow, zinit, starship..."
+  brew install stow zinit starship
+  success "Required packages installed."
 
   cd "$DOTFILES_DIR"
   stow .
