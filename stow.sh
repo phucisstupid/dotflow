@@ -9,15 +9,15 @@ RESET="\033[0m"
 log() { echo -e "${YELLOW}➤ $1${RESET}"; }
 success() { echo -e "${GREEN}✔ $1${RESET}"; }
 
-MODE="${1:-all}"  # Accepts 'all' (default) or 'sketchybar'
+MODE="${1:-all}" # Accepts 'all' (default) or 'sketchybar'
 
 get_yes_no() {
   local prompt="$1" response
   while true; do
     read -p "$prompt (y/n) " response
     case "$response" in
-      [Yy]) return 0 ;;
-      [Nn]) return 1 ;;
+    [Yy]) return 0 ;;
+    [Nn]) return 1 ;;
     esac
   done
 }
@@ -26,12 +26,12 @@ install_homebrew() {
   log "Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   case "$(uname)" in
-    Darwin)
-      [[ "$(uname -m)" == "arm64" ]] && eval "$(/opt/homebrew/bin/brew shellenv)" || eval "$(/usr/local/bin/brew shellenv)"
-      ;;
-    Linux)
-      eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-      ;;
+  Darwin)
+    [[ "$(uname -m)" == "arm64" ]] && eval "$(/opt/homebrew/bin/brew shellenv)" || eval "$(/usr/local/bin/brew shellenv)"
+    ;;
+  Linux)
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    ;;
   esac
   success "Homebrew installed."
 }
@@ -89,14 +89,14 @@ fi
 # 🎨 SKETCHYBAR SETUP
 # ----------------------
 if [[ "$MODE" == "all" || "$MODE" == "--sketchybar" ]]; then
-    log "Symlink SketchyBar config..."
-    rm -rf "$CONFIG_DIR/sketchybar"
-    ln -sf "$DOTFILES_DIR/sketchybar" "$CONFIG_DIR/sketchybar"
-    
-    if get_yes_no "✨ Install SketchyBar dependencies and helpers?"; then
+  log "Symlink SketchyBar config..."
+  rm -rf "$CONFIG_DIR/sketchybar"
+  ln -sf "$DOTFILES_DIR/sketchybar" "$CONFIG_DIR/sketchybar"
+
+  if get_yes_no "✨ Install SketchyBar dependencies and helpers?"; then
 
     log "Installing SketchyBar dependencies..."
-    
+
     latest_tag=$(curl -s https://api.github.com/repos/kvndrsslr/sketchybar-app-font/releases/latest | grep '"tag_name":' | cut -d '"' -f 4)
     font_url="https://github.com/kvndrsslr/sketchybar-app-font/releases/download/${latest_tag}/icon_map.lua"
     output_path="$CONFIG_DIR/sketchybar/helpers/icon_map.lua"
@@ -104,7 +104,7 @@ if [[ "$MODE" == "all" || "$MODE" == "--sketchybar" ]]; then
     mkdir -p "$(dirname "$output_path")"
     curl -L "$font_url" -o "$output_path"
     success "Downloaded icon_map.lua."
-    
+
     brew install lua switchaudio-osx nowplaying-cli
     brew tap FelixKratz/formulae
     brew install sketchybar
