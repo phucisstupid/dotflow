@@ -72,4 +72,3 @@ nix run "$NIX_DIR"
 success "Flake complete."
 
 echo "Setup complete. Allow accessibility permissions and restart your computer."
-
