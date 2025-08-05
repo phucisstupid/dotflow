@@ -41,6 +41,18 @@ install_homebrew() {
   success "Homebrew installed."
 }
 
+  if ! command -v brew &>/dev/null; then
+    if get_yes_no "🍺 Homebrew not found. Install?"; then
+      install_homebrew
+    else
+      log "Homebrew is required. Exiting."
+      exit 1
+    fi
+  else
+    success "Homebrew already installed."
+  fi
+
+
 DOTFILES_DIR="$HOME/dotfiles-stow"
 CONFIG_DIR="$HOME/.config"
 
@@ -57,17 +69,6 @@ if [[ "$MODE" == "all" ]]; then
   rm -rf "$CONFIG_DIR"
   mkdir -p "$CONFIG_DIR"
   success "Reset .zshrc and .config."
-
-  if ! command -v brew &>/dev/null; then
-    if get_yes_no "🍺 Homebrew not found. Install?"; then
-      install_homebrew
-    else
-      log "Homebrew is required. Exiting."
-      exit 1
-    fi
-  else
-    success "Homebrew already installed."
-  fi
 
   log "Installing stow, zinit, starship..."
   brew install stow zinit starship
