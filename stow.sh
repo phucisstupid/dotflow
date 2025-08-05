@@ -95,17 +95,18 @@ if [[ "$MODE" == "all" || "$MODE" == "--sketchybar" ]]; then
     ln -sf "$DOTFILES_DIR/sketchybar" "$CONFIG_DIR/sketchybar"
 
     log "Installing SketchyBar dependencies..."
-    brew install lua switchaudio-osx nowplaying-cli
-    brew tap FelixKratz/formulae
-    brew install sketchybar
-    brew install --cask sf-symbols font-sketchybar-app-font font-maple-mono
-
+    
     latest_tag=$(curl -s https://api.github.com/repos/kvndrsslr/sketchybar-app-font/releases/latest | grep '"tag_name":' | cut -d '"' -f 4)
     font_url="https://github.com/kvndrsslr/sketchybar-app-font/releases/download/${latest_tag}/icon_map.lua"
     output_path="$CONFIG_DIR/sketchybar/helpers/icon_map.lua"
     mkdir -p "$(dirname "$output_path")"
     curl -L "$font_url" -o "$output_path"
     success "Downloaded icon_map.lua."
+    
+    brew install lua switchaudio-osx nowplaying-cli
+    brew tap FelixKratz/formulae
+    brew install sketchybar
+    brew install --cask sf-symbols font-sketchybar-app-font font-maple-mono
 
     log "Installing SbarLua..."
     git clone https://github.com/FelixKratz/SbarLua.git /tmp/SbarLua
