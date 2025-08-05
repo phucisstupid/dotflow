@@ -89,10 +89,11 @@ fi
 # 🎨 SKETCHYBAR SETUP
 # ----------------------
 if [[ "$MODE" == "all" || "$MODE" == "--sketchybar" ]]; then
-  if get_yes_no "✨ Install SketchyBar config and helpers?"; then
     log "Symlink SketchyBar config..."
     rm -rf "$CONFIG_DIR/sketchybar"
     ln -sf "$DOTFILES_DIR/sketchybar" "$CONFIG_DIR/sketchybar"
+    
+    if get_yes_no "✨ Install SketchyBar dependencies and helpers?"; then
 
     log "Installing SketchyBar dependencies..."
     
