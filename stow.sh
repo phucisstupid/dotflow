@@ -9,12 +9,7 @@ RESET="\033[0m"
 log() { echo -e "${YELLOW}➤ $1${RESET}"; }
 success() { echo -e "${GREEN}✔ $1${RESET}"; }
 
-MODE="${1:-all}"  # Accepts either 'all' (default) or '--sketchybar'
-
-if [[ "$EUID" -ne 0 ]]; then
-  log "Sudo required. Enter your password."
-  sudo -v
-fi
+MODE="${1:-all}"  # Accepts 'all' (default) or 'sketchybar'
 
 get_yes_no() {
   local prompt="$1" response
@@ -41,34 +36,35 @@ install_homebrew() {
   success "Homebrew installed."
 }
 
-  if ! command -v brew &>/dev/null; then
-    if get_yes_no "🍺 Homebrew not found. Install?"; then
-      install_homebrew
-    else
-      log "Homebrew is required. Exiting."
-      exit 1
-    fi
+if ! command -v brew &>/dev/null; then
+  if get_yes_no "🍺 Homebrew not found. Install?"; then
+    install_homebrew
   else
-    success "Homebrew already installed."
+    log "Homebrew is required. Exiting."
+    exit 1
   fi
-
+else
+  success "Homebrew already installed."
+fi
 
 DOTFILES_DIR="$HOME/dotfiles-stow"
 CONFIG_DIR="$HOME/.config"
 
+rm -rf "$DOTFILES_DIR"
+git clone --depth 1 https://github.com/phucisstupid/dotfiles-stow.git "$DOTFILES_DIR"
+success "Cloned dotfiles-stow."
+
+
+ln -sf "$DOTFILES_DIR/sketchybar" "$CONFIG_DIR/sketchybar"
+
 # ----------------------
-# 🧩 MAIN SETUP (only if not --sketchybar)
+# 🧩 MAIN SETUP (only if not sketchybar-only)
 # ----------------------
 if [[ "$MODE" == "all" ]]; then
-  cd ~
-  rm -rf "$DOTFILES_DIR"
-  git clone --depth 1 https://github.com/phucisstupid/dotfiles-stow.git "$DOTFILES_DIR"
-  success "Cloned dotfiles-stow."
-
   rm -f ~/.zshrc
   rm -rf "$CONFIG_DIR"
   mkdir -p "$CONFIG_DIR"
-  success "Reset .zshrc and .config."
+  success "Reset .config and .zshrc"
 
   log "Installing stow, zinit, starship..."
   brew install stow zinit starship
@@ -95,7 +91,7 @@ fi
 # ----------------------
 # 🎨 SKETCHYBAR SETUP
 # ----------------------
-if [[ "$MODE" == "all" || "$MODE" == "--sketchybar" ]]; then
+if [[ "$MODE" == "all" || "$MODE" == "sketchybar" ]]; then
   if get_yes_no "✨ Install SketchyBar config and helpers?"; then
     log "Installing SketchyBar dependencies..."
 
@@ -112,7 +108,9 @@ if [[ "$MODE" == "all" || "$MODE" == "--sketchybar" ]]; then
     success "Downloaded icon_map.lua."
 
     log "Installing SbarLua..."
-    (git clone https://github.com/FelixKratz/SbarLua.git /tmp/SbarLua && cd /tmp/SbarLua/ && make install && rm -rf /tmp/SbarLua/)
+    git clone https://github.com/FelixKratz/SbarLua.git /tmp/SbarLua
+    (cd /tmp/SbarLua && make install)
+    rm -rf /tmp/SbarLua
     success "SbarLua installed."
 
     brew services restart sketchybar
