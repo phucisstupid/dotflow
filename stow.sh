@@ -91,7 +91,7 @@ fi
 # ----------------------
 # 🎨 SKETCHYBAR SETUP
 # ----------------------
-if [[ "$MODE" == "all" || "$MODE" == "sketchybar" ]]; then
+if [[ "$MODE" == "all" || "$MODE" == "--sketchybar" ]]; then
   if get_yes_no "✨ Install SketchyBar config and helpers?"; then
     log "Installing SketchyBar dependencies..."
 
