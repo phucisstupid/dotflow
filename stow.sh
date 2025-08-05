@@ -99,6 +99,7 @@ if [[ "$MODE" == "all" || "$MODE" == "--sketchybar" ]]; then
     latest_tag=$(curl -s https://api.github.com/repos/kvndrsslr/sketchybar-app-font/releases/latest | grep '"tag_name":' | cut -d '"' -f 4)
     font_url="https://github.com/kvndrsslr/sketchybar-app-font/releases/download/${latest_tag}/icon_map.lua"
     output_path="$CONFIG_DIR/sketchybar/helpers/icon_map.lua"
+    rm -f "$output_path"
     mkdir -p "$(dirname "$output_path")"
     curl -L "$font_url" -o "$output_path"
     success "Downloaded icon_map.lua."
