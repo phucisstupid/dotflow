@@ -54,9 +54,6 @@ rm -rf "$DOTFILES_DIR"
 git clone --depth 1 https://github.com/phucisstupid/dotfiles-stow.git "$DOTFILES_DIR"
 success "Cloned dotfiles-stow."
 
-
-ln -sf "$DOTFILES_DIR/sketchybar" "$CONFIG_DIR/sketchybar"
-
 # ----------------------
 # 🧩 MAIN SETUP (only if not sketchybar-only)
 # ----------------------
@@ -93,8 +90,11 @@ fi
 # ----------------------
 if [[ "$MODE" == "all" || "$MODE" == "--sketchybar" ]]; then
   if get_yes_no "✨ Install SketchyBar config and helpers?"; then
-    log "Installing SketchyBar dependencies..."
+    log "Symlink SketchyBar config..."
+    rm -rf "$CONFIG_DIR/sketchybar"
+    ln -sf "$DOTFILES_DIR/sketchybar" "$CONFIG_DIR/sketchybar"
 
+    log "Installing SketchyBar dependencies..."
     brew install lua switchaudio-osx nowplaying-cli
     brew tap FelixKratz/formulae
     brew install sketchybar
