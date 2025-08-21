@@ -1,107 +1,120 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euo pipefail
 IFS=$'\n\t'
 
+# ----------------------
+# 🎨 COLORS & HELPERS
+# ----------------------
 GREEN="\033[0;32m"
 YELLOW="\033[1;33m"
+RED="\033[0;31m"
 RESET="\033[0m"
 
-log() { echo -e "${YELLOW}➤ $1${RESET}"; }
+log()     { echo -e "${YELLOW}➤ $1${RESET}"; }
 success() { echo -e "${GREEN}✔ $1${RESET}"; }
-
-MODE="${1:-all}" # Accepts 'all' (default) or 'sketchybar'
+warn()    { echo -e "${RED}✘ $1${RESET}"; }
 
 get_yes_no() {
   local prompt="$1" response
   while true; do
-    read -p "$prompt (y/n) " response
+    read -rp "$prompt (y/n) " response
     case "$response" in
-    [Yy]) return 0 ;;
-    [Nn]) return 1 ;;
+      [Yy]) return 0 ;;
+      [Nn]) return 1 ;;
     esac
   done
 }
 
+# ----------------------
+# 🍺 HOMEBREW
+# ----------------------
 install_homebrew() {
   log "Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  case "$(uname)" in
-  Darwin)
-    [[ "$(uname -m)" == "arm64" ]] && eval "$(/opt/homebrew/bin/brew shellenv)" || eval "$(/usr/local/bin/brew shellenv)"
-    ;;
-  Linux)
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-    ;;
+
+  case "$(uname -s)" in
+    Darwin)
+      if [[ "$(uname -m)" == "arm64" ]]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+      else
+        eval "$(/usr/local/bin/brew shellenv)"
+      fi
+      ;;
+    Linux)
+      eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+      ;;
   esac
   success "Homebrew installed."
 }
 
-if ! command -v brew &>/dev/null; then
-  if get_yes_no "🍺 Homebrew not found. Install?"; then
-    install_homebrew
+ensure_homebrew() {
+  if ! command -v brew &>/dev/null; then
+    get_yes_no "🍺 Homebrew not found. Install?" && install_homebrew || {
+      warn "Homebrew is required. Exiting."
+      exit 1
+    }
   else
-    log "Homebrew is required. Exiting."
-    exit 1
+    success "Homebrew already installed."
   fi
-else
-  success "Homebrew already installed."
-fi
+}
 
+# ----------------------
+# 📂 PATHS
+# ----------------------
 DOTFILES_DIR="$HOME/dotfiles-stow"
 CONFIG_DIR="$HOME/.config"
-
-rm -rf "$DOTFILES_DIR"
-git clone --depth 1 https://github.com/phucisstupid/dotfiles-stow.git "$DOTFILES_DIR"
-success "Cloned dotfiles-stow."
+MODE="${1:-all}" # accepts: all | sketchybar | uninstall
 
 # ----------------------
-# 🧩 MAIN SETUP (only if not sketchybar-only)
+# 🔄 INSTALL
 # ----------------------
-if [[ "$MODE" == "all" ]]; then
-  rm -f ~/.zshrc
-  rm -rf "$CONFIG_DIR"
-  mkdir -p "$CONFIG_DIR"
-  success "Reset .config and .zshrc"
+install_dotfiles() {
+  rm -rf "$DOTFILES_DIR"
+  git clone --depth 1 https://github.com/phucisstupid/dotfiles-stow.git "$DOTFILES_DIR"
+  success "Cloned dotfiles-stow."
 
-  log "Installing stow, zinit, starship..."
-  brew install stow zinit starship
-  success "Required packages installed."
+  if [[ "$MODE" == "all" ]]; then
+    rm -f "$HOME/.zshrc"
+    rm -rf "$CONFIG_DIR"
+    mkdir -p "$CONFIG_DIR"
+    success "Reset .config and .zshrc"
 
-  cd "$DOTFILES_DIR"
-  stow .
-  stow simple-bar/ zsh/ -t ~
-  success "Applied stow configs."
+    log "Installing stow, zinit, starship..."
+    brew install stow zinit starship
+    success "Required packages installed."
 
-  mkdir -p "$HOME/Documents/personal/github-copilot"
-  ln -sf "$HOME/Documents/personal/github-copilot" "$CONFIG_DIR"
-  success "Symlinked GitHub Copilot configs."
+    (
+      cd "$DOTFILES_DIR"
+      stow .
+      stow simple-bar/ zsh/ -t ~
+    )
+    success "Applied stow configs."
 
-  BREWFILE="$DOTFILES_DIR/brew/Brewfile"
-  if [[ -f "$BREWFILE" ]]; then
-    if get_yes_no "🍺 Install Homebrew packages from Brewfile?"; then
+    mkdir -p "$HOME/Documents/personal/github-copilot"
+    ln -sfn "$HOME/Documents/personal/github-copilot" "$CONFIG_DIR"
+    success "Symlinked GitHub Copilot configs."
+
+    BREWFILE="$DOTFILES_DIR/brew/Brewfile"
+    if [[ -f "$BREWFILE" ]] && get_yes_no "🍺 Install Homebrew packages from Brewfile?"; then
       brew bundle --file="$BREWFILE"
       success "Installed packages from Brewfile."
     fi
   fi
-fi
+}
 
-# ----------------------
-# 🎨 SKETCHYBAR SETUP
-# ----------------------
-if [[ "$MODE" == "all" || "$MODE" == "--sketchybar" ]]; then
+install_sketchybar() {
   log "Symlink SketchyBar config..."
   rm -rf "$CONFIG_DIR/sketchybar"
-  ln -sf "$DOTFILES_DIR/sketchybar" "$CONFIG_DIR/sketchybar"
+  ln -sfn "$DOTFILES_DIR/sketchybar" "$CONFIG_DIR/sketchybar"
 
   if get_yes_no "✨ Install SketchyBar dependencies and helpers?"; then
-
-    log "get latest icon map ..."
-    latest_tag=$(curl -s https://api.github.com/repos/kvndrsslr/sketchybar-app-font/releases/latest | grep '"tag_name":' | cut -d '"' -f 4)
-    font_url="https://github.com/kvndrsslr/sketchybar-app-font/releases/download/${latest_tag}/icon_map.lua"
+    log "Fetching latest icon_map.lua..."
+    latest_tag=$(curl -s https://api.github.com/repos/kvndrsslr/sketchybar-app-font/releases/latest \
+      | grep '"tag_name":' | cut -d '"' -f 4)
     output_path="$CONFIG_DIR/sketchybar/helpers/icon_map.lua"
-    rm -f "$output_path"
     mkdir -p "$(dirname "$output_path")"
-    curl -L "$font_url" -o "$output_path"
+    curl -fsSL "https://github.com/kvndrsslr/sketchybar-app-font/releases/download/${latest_tag}/icon_map.lua" \
+      -o "$output_path"
     success "Downloaded icon_map.lua."
 
     log "Installing SketchyBar dependencies..."
@@ -109,18 +122,65 @@ if [[ "$MODE" == "all" || "$MODE" == "--sketchybar" ]]; then
     brew tap FelixKratz/formulae
     brew install sketchybar
     brew install --cask sf-symbols font-sketchybar-app-font font-maple-mono
-    success "installed dependencies..."
+    success "Installed dependencies."
 
     log "Installing SbarLua..."
-    git clone https://github.com/FelixKratz/SbarLua.git /tmp/SbarLua
-    (cd /tmp/SbarLua && make install)
-    rm -rf /tmp/SbarLua
+    tmpdir=$(mktemp -d)
+    git clone https://github.com/FelixKratz/SbarLua.git "$tmpdir"
+    (cd "$tmpdir" && make install)
+    rm -rf "$tmpdir"
     success "SbarLua installed."
 
     brew services restart sketchybar
     sketchybar --reload
     success "SketchyBar loaded."
   fi
-fi
+}
 
-log "✅ Dotfiles setup complete."
+# ----------------------
+# ❌ UNINSTALL
+# ----------------------
+uninstall_all() {
+  log "Removing symlinks and configs..."
+  rm -f "$HOME/.zshrc"
+  rm -rf "$CONFIG_DIR"
+  rm -rf "$DOTFILES_DIR"
+  success "Removed dotfiles and configs."
+
+  if get_yes_no "🍺 Uninstall Homebrew packages (stow, zinit, starship, sketchybar, etc.)?"; then
+    brew uninstall --force stow zinit starship lua switchaudio-osx nowplaying-cli sketchybar || true
+    brew uninstall --cask --force sf-symbols font-sketchybar-app-font font-maple-mono || true
+    success "Removed Homebrew packages."
+  fi
+
+  if get_yes_no "🧹 Remove Homebrew completely?"; then
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
+    success "Homebrew removed."
+  fi
+
+  success "Uninstall complete."
+}
+
+# ----------------------
+# 🚀 MAIN
+# ----------------------
+case "$MODE" in
+  all)
+    ensure_homebrew
+    install_dotfiles
+    install_sketchybar
+    ;;
+  sketchybar)
+    ensure_homebrew
+    install_sketchybar
+    ;;
+  uninstall)
+    uninstall_all
+    ;;
+  *)
+    warn "Unknown mode: $MODE (use: all | sketchybar | uninstall)"
+    exit 1
+    ;;
+esac
+
+log "✅ Operation finished."
