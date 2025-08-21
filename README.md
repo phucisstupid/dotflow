@@ -26,7 +26,7 @@ Clones and installs my [SketchyBar config](https://github.com/FelixKratz/Sketchy
 Automatically symlinks config files and restarts SketchyBar.
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucisstupid/dotflow/main/sketchybar.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucisstupid/dotflow/main/stow.sh)" -- sketchybar
 ```
 
 ## 🔻 Uninstall
@@ -34,7 +34,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucisstupid/dotflow/mai
 Remove symlinks and restore a clean state.
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucisstupid/dotflow/main/uninstall.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucisstupid/dotflow/main/stow.sh)" -- uninstall
 ```
 
 ## ⚠️ Notes
