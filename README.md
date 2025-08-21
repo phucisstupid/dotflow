@@ -2,24 +2,47 @@
 
 Minimal scripts to install and manage my [dotfiles](https://github.com/phucisstupid/dotfiles) effortlessly.
 
-## 🔹 Install Options:
+## 🔹 Install Options
 
 ### **Nix ❄️**
-Installs [Lix](https://docs.lix.systems/manual/lix), sets up your environment, symlinks config files, and runs your Nix flake.
+Installs [Nix](https://nixos.org/), sets up your environment, symlinks config files, and runs your Nix flake.
+
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucisstupid/dotflow/main/nix.sh)"
-```
+````
 
 ### **Stow 🏠**
+
 Installs [Homebrew](https://brew.sh/), [Zinit](https://github.com/zdharma-continuum/zinit), then symlinks dotfiles using [GNU Stow](https://www.gnu.org/software/stow/).
+Parent directories are auto-created before symlinks.
+
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucisstupid/dotflow/main/stow.sh)"
 ```
 
-## Important ⚠️
+### **SketchyBar 🎨**
 
-* **Backup:** Ensure you have backups of your current configurations.
-* **Dependencies:** These scripts rely on tools like `stow` and `brew`. My script will install it for you.
-* **Personal Extras:** links `raycast` and `github-copilot` from `~/Documents/personal/`, which are automatically backed up to my iCloud ☁️ by Finder.
+Clones and installs my [SketchyBar config](https://github.com/FelixKratz/SketchyBar).
+Automatically symlinks config files and restarts SketchyBar.
 
-##  **Enjoy your clean and minimal setup 😻**
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucisstupid/dotflow/main/sketchybar.sh)"
+```
+
+## 🔻 Uninstall
+
+Remove symlinks and restore a clean state.
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucisstupid/dotflow/main/uninstall.sh)"
+```
+
+## ⚠️ Notes
+
+* **Backup first**: Make sure you have copies of your current configs.
+* **Dependencies**: Scripts will install required tools like `brew` and `stow`.
+* **Personal extras**: Links `raycast` and `github-copilot` from `~/Documents/personal/`, auto-synced to iCloud ☁️.
+
+---
+
+## 😻 Enjoy your clean and minimal setup
