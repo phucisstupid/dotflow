@@ -1,6 +1,6 @@
 # 🚀 Dotflow
 
-Minimal scripts to install and manage my [dotfiles](https://github.com/phucisstupid/dotfiles) effortlessly.
+Minimal scripts to install and manage my [dotfiles](https://github.com/phucisstupid/dotfiles) and [dotfiles-stow](https://github.com/phucisstupid/dotfiles-stow) effortlessly.
 
 ## 🔹 Install Options
 
