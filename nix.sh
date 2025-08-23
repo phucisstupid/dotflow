@@ -60,7 +60,7 @@ log "Linking configs..."
 rm -rf "$CONFIG_DIR"
 mkdir -p "$CONFIG_DIR"
 
-ln -sfn "$STOW_DIR/karabiner" "$CONFIG_DIR/karabiner"
+ln -sfn "$STOW_DIR/.config/karabiner" "$CONFIG_DIR/karabiner"
 
 mkdir -p "$HOME/Documents/personal/github-copilot"
 ln -sfn "$HOME/Documents/personal/github-copilot" "$CONFIG_DIR/github-copilot"
