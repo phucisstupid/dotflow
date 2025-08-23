@@ -96,11 +96,13 @@ install_dotfiles() {
   fi
 }
 
-install_sketchybar() {
+symlink_sketchybar() {
   log "Symlink SketchyBar config..."
   rm -rf "$CONFIG_DIR/sketchybar"
   ln -sf "$DOTFILES_DIR/.config/sketchybar" "$CONFIG_DIR/sketchybar"
+}
 
+install_sketchybar() {
   if get_yes_no "✨ Install SketchyBar dependencies and helpers?"; then
     log "Fetching latest icon_map.lua..."
     latest_tag=$(curl -s https://api.github.com/repos/kvndrsslr/sketchybar-app-font/releases/latest \
@@ -166,6 +168,7 @@ case "$MODE" in
     ;;
   sketchybar)
     ensure_homebrew
+    symlink_sketchybar
     install_sketchybar
     ;;
   uninstall)
