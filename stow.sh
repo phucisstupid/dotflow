@@ -88,10 +88,6 @@ install_dotfiles() {
     )
     success "Applied stow configs."
 
-    mkdir -p "$HOME/Documents/personal/github-copilot"
-    ln -sfn "$HOME/Documents/personal/github-copilot" "$CONFIG_DIR"
-    success "Symlinked GitHub Copilot configs."
-
     BREWFILE="$DOTFILES_DIR/brew/Brewfile"
     if [[ -f "$BREWFILE" ]] && get_yes_no "🍺 Install Homebrew packages from Brewfile?"; then
       brew bundle --file="$BREWFILE"
