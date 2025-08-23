@@ -85,8 +85,7 @@ install_dotfiles() {
 
     (
       cd "$DOTFILES_DIR"
-      stow .
-      stow simple-bar/ zsh/ -t ~
+      stow --verbose .
     )
     success "Applied stow configs."
 
@@ -105,7 +104,7 @@ install_dotfiles() {
 install_sketchybar() {
   log "Symlink SketchyBar config..."
   rm -rf "$CONFIG_DIR/sketchybar"
-  ln -sfn "$DOTFILES_DIR/sketchybar" "$CONFIG_DIR/sketchybar"
+  ln -sfn "$DOTFILES_DIR/.config/sketchybar" "$CONFIG_DIR/sketchybar"
 
   if get_yes_no "✨ Install SketchyBar dependencies and helpers?"; then
     log "Fetching latest icon_map.lua..."
