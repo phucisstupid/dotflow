@@ -99,7 +99,7 @@ install_dotfiles() {
 install_sketchybar() {
   log "Symlink SketchyBar config..."
   rm -rf "$CONFIG_DIR/sketchybar"
-  ln -sfn "$DOTFILES_DIR/.config/sketchybar" "$CONFIG_DIR/sketchybar"
+  ln -sf "$DOTFILES_DIR/.config/sketchybar" "$CONFIG_DIR/sketchybar"
 
   if get_yes_no "✨ Install SketchyBar dependencies and helpers?"; then
     log "Fetching latest icon_map.lua..."
