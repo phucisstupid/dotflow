@@ -2,6 +2,8 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+trap 'echo -e "\n\033[0;31m✘ Interrupted. Exiting...\033[0m"; exit 1' INT
+
 # ----------------------
 # 🎨 COLORS & HELPERS
 # ----------------------
@@ -12,7 +14,7 @@ RESET="\033[0m"
 
 log()     { echo -e "${YELLOW}➤ $1${RESET}"; }
 success() { echo -e "${GREEN}✔ $1${RESET}"; }
-warn()    { echo -e "${RED}✘ $1${RESET}"; }
+error()   { echo -e "${RED}✘ $1${RESET}" >&2; }
 
 get_yes_no() {
   local prompt="$1" response
@@ -50,7 +52,7 @@ install_homebrew() {
 ensure_homebrew() {
   if ! command -v brew &>/dev/null; then
     get_yes_no "🍺 Homebrew not found. Install?" && install_homebrew || {
-      warn "Homebrew is required. Exiting."
+      error "Homebrew is required. Exiting."
       exit 1
     }
   else
@@ -69,49 +71,48 @@ MODE="${1:-all}" # accepts: all | sketchybar | uninstall
 # 🔄 INSTALL
 # ----------------------
 install_dotfiles() {
-  rm -rf "$DOTFILES_DIR"
+  rm -rf -- "$DOTFILES_DIR"
   git clone --depth 1 https://github.com/phucisstupid/dotfiles-stow.git "$DOTFILES_DIR"
   success "Cloned dotfiles-stow."
 
   if [[ "$MODE" == "all" ]]; then
-    rm -f "$HOME/.zshrc"
-    rm -rf "$CONFIG_DIR"
+    rm -f -- "$HOME/.zshrc"
+    rm -rf -- "$CONFIG_DIR"
     success "Reset .config and .zshrc"
 
-    log "Installing stow, zinit, starship..."
+    log "Installing base packages..."
     brew install stow zinit starship
-    success "Required packages installed."
+    success "Installed stow, zinit, starship."
 
-    (
-      cd "$DOTFILES_DIR"
-      stow --verbose .
-    )
+    (cd "$DOTFILES_DIR" && stow --verbose .)
     success "Applied stow configs."
 
     BREWFILE="$DOTFILES_DIR/brew/Brewfile"
-    if [[ -f "$BREWFILE" ]] && get_yes_no "🍺 Install Homebrew packages from Brewfile?"; then
+    if [[ -f "$BREWFILE" ]] && get_yes_no "🍺 Install packages from Brewfile?"; then
       brew bundle --file="$BREWFILE"
-      success "Installed packages from Brewfile."
+      success "Installed Brewfile packages."
     fi
   fi
 }
 
 symlink_sketchybar() {
-  log "Symlink SketchyBar config..."
-  rm -rf "$CONFIG_DIR/sketchybar"
+  log "Symlinking SketchyBar config..."
+  rm -rf -- "$CONFIG_DIR/sketchybar"
   ln -sf "$DOTFILES_DIR/.config/sketchybar" "$CONFIG_DIR/sketchybar"
+  success "Symlinked SketchyBar config."
 }
 
 install_sketchybar() {
   if get_yes_no "✨ Install SketchyBar dependencies and helpers?"; then
     log "Fetching latest icon_map.lua..."
-    latest_tag=$(curl -s https://api.github.com/repos/kvndrsslr/sketchybar-app-font/releases/latest \
-      | grep '"tag_name":' | cut -d '"' -f 4)
+    latest_tag=$(curl -fsSL https://api.github.com/repos/kvndrsslr/sketchybar-app-font/releases/latest \
+      | jq -r .tag_name)
+
     output_path="$CONFIG_DIR/sketchybar/helpers/icon_map.lua"
     mkdir -p "$(dirname "$output_path")"
     curl -fsSL "https://github.com/kvndrsslr/sketchybar-app-font/releases/download/${latest_tag}/icon_map.lua" \
       -o "$output_path"
-    success "Downloaded icon_map.lua."
+    success "Downloaded icon_map.lua ($latest_tag)."
 
     log "Installing SketchyBar dependencies..."
     brew install lua switchaudio-osx nowplaying-cli
@@ -122,9 +123,9 @@ install_sketchybar() {
 
     log "Installing SbarLua..."
     tmpdir=$(mktemp -d)
-    git clone https://github.com/FelixKratz/SbarLua.git "$tmpdir"
+    trap 'rm -rf "$tmpdir"' EXIT
+    git clone --quiet https://github.com/FelixKratz/SbarLua.git "$tmpdir"
     (cd "$tmpdir" && make install)
-    rm -rf "$tmpdir"
     success "SbarLua installed."
 
     brew services restart sketchybar
@@ -138,12 +139,12 @@ install_sketchybar() {
 # ----------------------
 uninstall_all() {
   log "Removing symlinks and configs..."
-  rm -f "$HOME/.zshrc"
-  rm -rf "$CONFIG_DIR"
-  rm -rf "$DOTFILES_DIR"
+  rm -f -- "$HOME/.zshrc"
+  rm -rf -- "$CONFIG_DIR"
+  rm -rf -- "$DOTFILES_DIR"
   success "Removed dotfiles and configs."
 
-  if get_yes_no "🍺 Uninstall Homebrew packages (stow, zinit, starship, sketchybar, etc.)?"; then
+  if get_yes_no "🍺 Uninstall Homebrew packages?"; then
     brew uninstall --force stow zinit starship lua switchaudio-osx nowplaying-cli sketchybar || true
     brew uninstall --cask --force sf-symbols font-sketchybar-app-font font-maple-mono || true
     success "Removed Homebrew packages."
@@ -175,9 +176,9 @@ case "$MODE" in
     uninstall_all
     ;;
   *)
-    warn "Unknown mode: $MODE (use: all | sketchybar | uninstall)"
+    error "Unknown mode: $MODE (use: all | sketchybar | uninstall)"
     exit 1
     ;;
 esac
 
-log "✅ Operation finished."
+success "✅ Operation finished."
