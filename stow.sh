@@ -88,7 +88,7 @@ install_dotfiles() {
     success "Applied stow configs."
 
     BREWFILE="$DOTFILES_DIR/brew/Brewfile"
-    if [[ -f "$BREWFILE" ]] && get_yes_no "🍺 Install packages from Brewfile?"; then
+    if [[ -f "$BREWFILE" ]] && get_yes_no "🍺 Install packages from Brewfile? (optional)"; then
       brew bundle --file="$BREWFILE"
       success "Installed Brewfile packages."
     fi
