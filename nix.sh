@@ -22,18 +22,20 @@ if [[ "$EUID" -ne 0 ]]; then
   sudo -v
 fi
 
-# keep sudo alive
+# keep sudo alive until script exits
 ( while true; do sudo -n true; sleep 60; done ) &
 KEEP_SUDO_ALIVE_PID=$!
-trap 'kill "$KEEP_SUDO_ALIVE_PID" &>/dev/null' EXIT
+trap 'kill "$KEEP_SUDO_ALIVE_PID" >/dev/null 2>&1' EXIT
 
 # ----------------------
 # 📦 NIX INSTALL
 # ----------------------
-if ! command -v nix &>/dev/null; then
+if ! command -v nix >/dev/null 2>&1; then
   log "Installing Nix..."
   curl -fsSL https://install.determinate.systems/nix | sh -s -- install --no-confirm
-  /nix/nix-installer repair
+  if command -v /nix/nix-installer >/dev/null 2>&1; then
+    /nix/nix-installer repair
+  fi
   success "Nix installed."
 else
   success "Nix already installed."
@@ -57,13 +59,18 @@ success "Cloned dotfiles repos."
 # 🔗 CONFIG LINKS
 # ----------------------
 log "Linking configs..."
-rm -rf "$CONFIG_DIR"
 mkdir -p "$CONFIG_DIR"
 
+# remove old configs if exist
+rm -rf "$CONFIG_DIR/karabiner" "$CONFIG_DIR/github-copilot"
+
+# link karabiner config
 ln -sfn "$STOW_DIR/.config/karabiner" "$CONFIG_DIR/karabiner"
 
+# ensure copilot folder exists then link
 mkdir -p "$HOME/Documents/personal/github-copilot"
 ln -sfn "$HOME/Documents/personal/github-copilot" "$CONFIG_DIR/github-copilot"
+
 success "Configs linked."
 
 # ----------------------
@@ -79,9 +86,15 @@ if [[ -f "$CONFIG_NIX" ]]; then
   if [[ "$(uname)" == "Darwin" ]]; then
     log "Setting username in config.nix and creating Darwin host '$DARWIN_HOST'..."
     mkdir -p "$DARWIN_PATH"
-    rsync -a "$SOURCE_NIX" "$DARWIN_PATH/default.nix"
+    if command -v rsync >/dev/null 2>&1; then
+      rsync -a "$SOURCE_NIX" "$DARWIN_PATH/default.nix"
+    else
+      cp "$SOURCE_NIX" "$DARWIN_PATH/default.nix"
+    fi
+    # macOS uses BSD sed (needs backup suffix for -i)
     sed -i '' "s/wow/${USER_NAME}/g" "$CONFIG_NIX"
   else
+    # Linux GNU sed works fine
     sed -i "s/wow/${USER_NAME}/g" "$CONFIG_NIX"
   fi
   success "Updated config.nix for user '$USER_NAME'."
@@ -94,4 +107,4 @@ log "Running flake..."
 nix run "$NIX_DIR"
 success "Flake complete."
 
-echo "✅ Setup complete. Allow accessibility permissions and restart your computer."
+echo -e "\n${GREEN}✅ Setup complete.${RESET} Allow accessibility permissions and restart your computer."
