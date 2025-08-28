@@ -87,9 +87,9 @@ install_dotfiles() {
     (cd "$DOTFILES_DIR" && stow --verbose .)
     success "Applied stow configs."
     
-    if get_yes_no "✨ Install tmux plugins?"; then
+    if get_yes_no "✨ Install tmux plugins manger?"; then
       git clone --depth 1 https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-      success "Installed tmux plugins."
+      success "Installed tmux plugins manager, open tmux run <C-a> + shift I."
     fi
     
     BREWFILE="$DOTFILES_DIR/brew/Brewfile"
