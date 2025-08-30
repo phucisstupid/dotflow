@@ -77,6 +77,7 @@ install_dotfiles() {
 
   if [[ "$MODE" == "all" ]]; then
     rm -f -- "$HOME/.zshrc"
+    rm -f -- "$HOME/.simplebarrc"
     rm -rf -- "$CONFIG_DIR"
     success "Reset .config and .zshrc"
 
