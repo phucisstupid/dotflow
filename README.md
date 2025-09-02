@@ -8,7 +8,7 @@ Minimal scripts to install and manage my [dotfiles](https://github.com/phucisstu
 Installs [Nix](https://nixos.org/), sets up your environment, symlinks config files, and runs your Nix flake.
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucisstupid/dotflow/main/nix.sh)"
+curl -fsSL https://raw.githubusercontent.com/phucisstupid/dotflow/main/nix.sh | sh -s
 ````
 
 ### **Stow 🏠**
@@ -17,7 +17,7 @@ Installs [Homebrew](https://brew.sh/), [Zinit](https://github.com/zdharma-contin
 Parent directories are auto-created before symlinks.
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucisstupid/dotflow/main/stow.sh)"
+curl -fsSL https://raw.githubusercontent.com/phucisstupid/dotflow/main/stow.sh | sh -s
 ```
 
 ### **SketchyBar 🎨**
@@ -26,7 +26,7 @@ Clones and installs my [SketchyBar config](https://github.com/FelixKratz/Sketchy
 Automatically symlinks config files and restarts SketchyBar.
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucisstupid/dotflow/main/stow.sh)" -- sketchybar
+curl -fsSL https://raw.githubusercontent.com/phucisstupid/dotflow/main/stow.sh | sh -s -- sketchybar
 ```
 
 ## 🔻 Uninstall
@@ -34,7 +34,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucisstupid/dotflow/mai
 Remove symlinks and restore a clean state.
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/phucisstupid/dotflow/main/stow.sh)" -- uninstall
+curl -fsSL https://raw.githubusercontent.com/phucisstupid/dotflow/main/stow.sh | sh -s -- uninstall
 ```
 
 ## ⚠️ Notes
