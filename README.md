@@ -1,7 +1,6 @@
 # 🚀 Dotflow
 
 Minimal scripts to install and manage my [dotfiles](https://github.com/phucisstupid/dotfiles) and [dotfiles-stow](https://github.com/phucisstupid/dotfiles-stow) effortlessly.  
-All existing configs are **safely backed up** (`.bak`), so nothing gets lost.  
 
 ## 🔹 Install Options
 
