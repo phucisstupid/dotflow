@@ -27,6 +27,23 @@ get_yes_no() {
   done
 }
 
+backup_file() {
+  local target="$1"
+  if [[ -e "$target" ]]; then
+    mv "$target" "$target.bak"
+    success "Backed up $target → $target.bak"
+  fi
+}
+
+restore_file() {
+  local target="$1"
+  if [[ -e "$target.bak" ]]; then
+    rm -rf -- "$target" 2>/dev/null || true
+    mv "$target.bak" "$target"
+    success "Restored $target from backup"
+  fi
+}
+
 # ----------------------
 # 🍺 HOMEBREW
 # ----------------------
@@ -71,15 +88,15 @@ MODE="${1:-all}" # accepts: all | sketchybar | uninstall
 # 🔄 INSTALL
 # ----------------------
 install_dotfiles() {
-  rm -rf -- "$DOTFILES_DIR"
+  backup_file "$DOTFILES_DIR"
   git clone --depth 1 https://github.com/phucisstupid/dotfiles-stow.git "$DOTFILES_DIR"
   success "Cloned dotfiles-stow."
 
   if [[ "$MODE" == "all" ]]; then
-    rm -f -- "$HOME/.zshrc"
-    rm -f -- "$HOME/.simplebarrc"
-    rm -rf -- "$CONFIG_DIR"
-    success "Reset .config and .zshrc"
+    backup_file "$HOME/.zshrc"
+    backup_file "$HOME/.simplebarrc"
+    backup_file "$CONFIG_DIR"
+    success "Backed up .config, .zshrc, .simplebarrc"
 
     log "Installing base packages..."
     brew install stow zinit starship
@@ -103,7 +120,7 @@ install_dotfiles() {
 
 symlink_sketchybar() {
   log "Symlinking SketchyBar config..."
-  rm -rf -- "$CONFIG_DIR/sketchybar"
+  backup_file "$CONFIG_DIR/sketchybar"
   ln -sf "$DOTFILES_DIR/.config/sketchybar" "$CONFIG_DIR/sketchybar"
   success "Symlinked SketchyBar config."
 }
@@ -144,11 +161,20 @@ install_sketchybar() {
 # ❌ UNINSTALL
 # ----------------------
 uninstall_all() {
-  log "Removing symlinks and configs..."
-  rm -f -- "$HOME/.zshrc"
-  rm -rf -- "$CONFIG_DIR"
-  rm -rf -- "$DOTFILES_DIR"
-  success "Removed dotfiles and configs."
+  log "Removing installed dotfiles and configs..."
+
+  rm -rf -- "$DOTFILES_DIR" 2>/dev/null || true
+  rm -rf -- "$CONFIG_DIR" 2>/dev/null || true
+  rm -f -- "$HOME/.zshrc" 2>/dev/null || true
+  rm -f -- "$HOME/.simplebarrc" 2>/dev/null || true
+
+  # restore backups if they exist
+  restore_file "$HOME/.zshrc"
+  restore_file "$HOME/.simplebarrc"
+  restore_file "$CONFIG_DIR"
+  restore_file "$DOTFILES_DIR"
+
+  success "Dotfiles and configs cleaned up."
 
   if get_yes_no "🍺 Uninstall Homebrew packages?"; then
     brew uninstall --force stow zinit starship lua switchaudio-osx nowplaying-cli sketchybar || true
