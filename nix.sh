@@ -74,7 +74,7 @@ ln -sfn "$HOME/Documents/personal/github-copilot" "$CONFIG_DIR/github-copilot"
 success "Configs linked."
 
 # ----------------------
-# ⚙️ NIX CONFIG
+# ⚙️ NIX
 # ----------------------
 CONFIG_NIX="$NIX_DIR/config.nix"
 DARWIN_HOST=$(hostname -s)
@@ -84,20 +84,28 @@ USER_NAME="$(whoami)"
 
 if [[ -f "$CONFIG_NIX" ]]; then
   if [[ "$(uname)" == "Darwin" ]]; then
-    log "Setting username in config.nix and creating Darwin host '$DARWIN_HOST'..."
-    mkdir -p "$DARWIN_PATH"
-    if command -v rsync >/dev/null 2>&1; then
-      rsync -a "$SOURCE_NIX" "$DARWIN_PATH/default.nix"
-    else
+    log "Setting username in config.nix and preparing Darwin host '$DARWIN_HOST'..."
+
+    # Create Darwin host directory if it doesn't exist
+    if [[ ! -d "$DARWIN_PATH" ]]; then
+      mkdir -p "$DARWIN_PATH"
       cp "$SOURCE_NIX" "$DARWIN_PATH/default.nix"
+      log "Copied default.nix to '$DARWIN_PATH'."
+    else
+      log "Darwin host '$DARWIN_HOST' already exists, skipping copy."
     fi
-    # macOS uses BSD sed (needs backup suffix for -i)
+
+    # Replace username in config.nix
     sed -i '' "s/wow/${USER_NAME}/g" "$CONFIG_NIX"
+
+    # Replace networking.hostName in the copied default.nix
+    sed -i '' "s/networking\.hostName = \"192\";/networking.hostName = \"$DARWIN_HOST\";/g" "$DARWIN_PATH/default.nix"
+
   else
-    # Linux GNU sed works fine
     sed -i "s/wow/${USER_NAME}/g" "$CONFIG_NIX"
   fi
-  success "Updated config.nix for user '$USER_NAME'."
+
+  success "Updated config.nix and Darwin host configuration for user '$USER_NAME'."
 fi
 
 # ----------------------
