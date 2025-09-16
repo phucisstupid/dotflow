@@ -91,6 +91,11 @@ if [[ -f "$CONFIG_NIX" ]]; then
       mkdir -p "$DARWIN_PATH"
       cp "$SOURCE_NIX" "$DARWIN_PATH/default.nix"
       log "Copied default.nix to '$DARWIN_PATH'."
+      
+      if git -C "$NIX_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        git -C "$NIX_DIR" add "$DARWIN_PATH/default.nix"
+        log "Added '$DARWIN_PATH/default.nix' to git."
+      fi
     else
       log "Darwin host '$DARWIN_HOST' already exists, skipping copy."
     fi
