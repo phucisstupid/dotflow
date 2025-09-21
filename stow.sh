@@ -147,7 +147,7 @@ install_sketchybar() {
     log "Installing SbarLua..."
     tmpdir=$(mktemp -d)
     trap 'rm -rf "$tmpdir"' EXIT
-    git clone --quiet https://github.com/FelixKratz/SbarLua.git "$tmpdir"
+    git clone --depth=1 --quiet https://github.com/FelixKratz/SbarLua.git "$tmpdir"
     (cd "$tmpdir" && make install)
     success "SbarLua installed."
 
