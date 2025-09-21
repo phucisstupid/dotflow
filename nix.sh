@@ -32,7 +32,7 @@ trap 'kill "$KEEP_SUDO_ALIVE_PID" >/dev/null 2>&1' EXIT
 # ----------------------
 if ! command -v nix >/dev/null 2>&1; then
   log "Installing Nix..."
-  curl -fsSL https://install.determinate.systems/nix | sh -s -- install --no-confirm
+  curl -fsSL https://install.determinate.systems/nix | sh -s -- install --determinate --no-confirm
   if command -v /nix/nix-installer >/dev/null 2>&1; then
     /nix/nix-installer repair
   fi
