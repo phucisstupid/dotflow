@@ -42,9 +42,3 @@ curl -fsSL https://raw.githubusercontent.com/phucisstupid/dotflow/main/stow.sh |
 * **Automatic backups**: Existing configs are renamed to `.bak` instead of deleted.
 * **Safe uninstall**: `.bak` files are restored back to their original names.
 * **Dependencies**: Scripts will install required tools like `brew`, `stow`, `zinit`.
-* **Personal extras**: Links `raycast` and `github-copilot` from `~/Documents/personal/`, auto-synced to iCloud ☁️.
-
----
-
-## 😻 Enjoy your clean and minimal setup
-
