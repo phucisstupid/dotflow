@@ -150,11 +150,10 @@ install_sketchybar() {
     git clone --depth 1 --quiet https://github.com/FelixKratz/SbarLua.git "$tmpdir"
     (cd "$tmpdir" && make install)
     success "SbarLua installed."
-
-    brew services restart sketchybar
-    sketchybar --reload
-    success "SketchyBar loaded."
   fi
+  brew services restart sketchybar
+  sketchybar --reload
+  success "SketchyBar loaded."
 }
 
 # ----------------------
