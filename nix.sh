@@ -62,10 +62,7 @@ log "Linking configs..."
 mkdir -p "$CONFIG_DIR"
 
 # remove old configs if exist
-rm -rf "$CONFIG_DIR/karabiner" "$CONFIG_DIR/github-copilot"
-
-# link karabiner config
-ln -sfn "$STOW_DIR/.config/karabiner" "$CONFIG_DIR/karabiner"
+rm -rf "$CONFIG_DIR/github-copilot"
 
 # ensure copilot folder exists then link
 mkdir -p "$HOME/Documents/personal/github-copilot"
