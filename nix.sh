@@ -45,30 +45,12 @@ fi
 # 📂 DIRECTORIES
 # ----------------------
 NIX_DIR="$HOME/dotfiles"
-STOW_DIR="$HOME/dotfiles-stow"
-CONFIG_DIR="$HOME/.config"
 
 log "Cloning dotfiles..."
 cd "$HOME"
-rm -rf "$NIX_DIR" "$STOW_DIR"
+rm -rf "$NIX_DIR"
 git clone --depth 1 https://github.com/phucisstupid/dotfiles.git "$NIX_DIR"
-git clone --depth 1 https://github.com/phucisstupid/dotfiles-stow.git "$STOW_DIR"
 success "Cloned dotfiles repos."
-
-# ----------------------
-# 🔗 CONFIG LINKS
-# ----------------------
-log "Linking configs..."
-mkdir -p "$CONFIG_DIR"
-
-# remove old configs if exist
-rm -rf "$CONFIG_DIR/github-copilot"
-
-# ensure copilot folder exists then link
-mkdir -p "$HOME/Documents/personal/github-copilot"
-ln -sfn "$HOME/Documents/personal/github-copilot" "$CONFIG_DIR/github-copilot"
-
-success "Configs linked."
 
 # ----------------------
 # ⚙️ NIX
