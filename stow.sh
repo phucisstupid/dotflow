@@ -110,7 +110,7 @@ install_dotfiles() {
       success "Installed tmux plugins manager, open tmux run <C-a> + shift I."
     fi
     
-    BREWFILE="$DOTFILES_DIR/brew/Brewfile"
+    BREWFILE="$DOTFILES_DIR/Brewfile"
     if [[ -f "$BREWFILE" ]] && get_yes_no "🍺 Install packages from Brewfile? (optional)"; then
       brew bundle --file="$BREWFILE"
       success "Installed Brewfile packages."
