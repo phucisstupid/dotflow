@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-brew bundle dump --file=~/dotfiles-stow/brew/Brewfile --force
+brew bundle dump --file=~/dotfiles-stow/Brewfile --force
 echo "✅ Brewfile updated!"
 cd ~/dotfiles
 git add .         
